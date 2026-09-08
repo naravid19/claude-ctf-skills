@@ -3,39 +3,57 @@
 
 skill:web:
   - changed-files:
-      - any-glob-to-any-file: 'ctf-web/**'
+      - any-glob-to-any-file:
+          - 'skills/ctf-web/**'
+          - 'ctf-web/**'
 
 skill:pwn:
   - changed-files:
-      - any-glob-to-any-file: 'ctf-pwn/**'
+      - any-glob-to-any-file:
+          - 'skills/ctf-pwn/**'
+          - 'ctf-pwn/**'
 
 skill:crypto:
   - changed-files:
-      - any-glob-to-any-file: 'ctf-crypto/**'
+      - any-glob-to-any-file:
+          - 'skills/ctf-crypto/**'
+          - 'ctf-crypto/**'
 
 skill:reverse:
   - changed-files:
-      - any-glob-to-any-file: 'ctf-reverse/**'
+      - any-glob-to-any-file:
+          - 'skills/ctf-reverse/**'
+          - 'ctf-reverse/**'
 
 skill:forensics:
   - changed-files:
-      - any-glob-to-any-file: 'ctf-forensics/**'
+      - any-glob-to-any-file:
+          - 'skills/ctf-forensics/**'
+          - 'ctf-forensics/**'
 
 skill:osint:
   - changed-files:
-      - any-glob-to-any-file: 'ctf-osint/**'
+      - any-glob-to-any-file:
+          - 'skills/ctf-osint/**'
+          - 'ctf-osint/**'
 
 skill:malware:
   - changed-files:
-      - any-glob-to-any-file: 'ctf-malware/**'
+      - any-glob-to-any-file:
+          - 'skills/ctf-malware/**'
+          - 'ctf-malware/**'
 
 skill:misc:
   - changed-files:
-      - any-glob-to-any-file: 'ctf-misc/**'
+      - any-glob-to-any-file:
+          - 'skills/ctf-misc/**'
+          - 'ctf-misc/**'
 
 skill:ai-ml:
   - changed-files:
-      - any-glob-to-any-file: 'ctf-ai-ml/**'
+      - any-glob-to-any-file:
+          - 'skills/ctf-ai-ml/**'
+          - 'ctf-ai-ml/**'
 
 infrastructure:
   - changed-files:

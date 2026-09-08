@@ -59,9 +59,13 @@ jobs:
 
             SKILL_FILES=""
             while IFS= read -r file; do
-              dir=$(echo "$file" | cut -d'/' -f1)
+              if echo "$file" | grep -q "^skills/"; then
+                dir="skills/$(echo "$file" | cut -d'/' -f2)"
+              else
+                dir=$(echo "$file" | cut -d'/' -f1)
+              fi
               case "$dir" in
-                ""|.github|.claude|.codex|.gemini|scripts|docs) continue ;;
+                ""|.github|.claude*|.codex|.gemini|scripts|docs|agents|tests) continue ;;
               esac
               if [ -f "$dir/SKILL.md" ]; then
                 SKILL_FILES+="./$dir/SKILL.md"$'\n'
