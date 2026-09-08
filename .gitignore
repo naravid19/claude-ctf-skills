@@ -22,3 +22,7 @@ _site/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local-only (not published)
+reference/
+docs/

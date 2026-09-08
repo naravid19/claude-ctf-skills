@@ -5,11 +5,11 @@
   "version": "1.0.0",
   "description": "Comprehensive Agent Skills and autonomous CTF solver agent for solving Capture The Flag challenges across Web, Pwn, Crypto, Reverse, Forensics, OSINT, AI/ML, Malware, and Misc.",
   "author": {
-    "name": "Lukasz Jagiello",
-    "url": "https://github.com/ljagiello"
+    "name": "Narawit",
+    "url": "https://github.com/naravid19"
   },
-  "homepage": "https://github.com/ljagiello/ctf-skills",
-  "repository": "https://github.com/ljagiello/ctf-skills",
+  "homepage": "https://github.com/naravid19/claude-ctf-skills",
+  "repository": "https://github.com/naravid19/claude-ctf-skills",
   "license": "MIT",
   "keywords": [
     "ctf",
