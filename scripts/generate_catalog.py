@@ -107,6 +107,11 @@ def parse_frontmatter(text: str) -> dict[str, str]:
 
 def discover_skills() -> list[Path]:
     """Find all directories containing a SKILL.md."""
+    skills_dir = REPO_ROOT / "skills"
+    if skills_dir.is_dir():
+        skills = sorted(p.parent for p in skills_dir.glob("*/SKILL.md"))
+        if skills:
+            return skills
     return sorted(p.parent for p in REPO_ROOT.glob("*/SKILL.md"))
 
 
