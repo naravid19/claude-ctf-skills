@@ -4,6 +4,27 @@
 
 ## Installation
 
+### As a Claude Code Plugin (Recommended)
+
+You can use `ctf-skills` directly as a Claude Code Plugin with custom skills and subagents:
+
+**Option 1: Test or run locally via `--plugin-dir`**
+```bash
+claude --plugin-dir /path/to/ctf-skills
+```
+
+**Option 2: Install as a skills-directory plugin (auto-loads across all sessions)**
+```bash
+git clone https://github.com/ljagiello/ctf-skills ~/.claude/skills/ctf-skills
+```
+
+Once loaded in Claude Code, you can:
+- Let Claude autonomously invoke skills based on challenge context
+- Run category skills directly via commands: `/ctf-skills:solve-challenge <target>`, `/ctf-skills:ctf-web`, `/ctf-skills:ctf-pwn`, etc.
+- Dispatch the dedicated autonomous solver subagent with `@ctf-skills:ctf-solver`
+
+### Via Agent Skills CLI (npx)
+
 ```bash
 npx skills add ljagiello/ctf-skills
 ```

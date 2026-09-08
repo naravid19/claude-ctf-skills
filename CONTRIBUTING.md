@@ -78,7 +78,7 @@ Update the skill's row in `README.md`: increment the **Files** count if you adde
 
 ## Creating a New Skill Category
 
-A new skill category is a directory at the repo root containing at minimum a `SKILL.md` file.
+A new skill category is a directory inside `skills/` containing at minimum a `SKILL.md` file (e.g. `skills/ctf-newcategory/SKILL.md`).
 
 The `SKILL.md` must have YAML frontmatter with these required fields:
 
@@ -117,7 +117,7 @@ python -m pytest tests/ -v
 python -m pytest tests/test_skill_frontmatter.py -v
 
 # Run the security auditor on a specific skill
-python3 scripts/skill_security_auditor.py ctf-web --strict --json
+python3 scripts/skill_security_auditor.py skills/ctf-web --strict --json
 ```
 
 ### Running pre-commit checks manually
