@@ -1,5 +1,9 @@
 # CTF Skills
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-8A2BE2.svg)](https://docs.anthropic.com/en/docs/claude-code)
+![Skills](https://img.shields.io/badge/skills-9%20categories%20%2B%20solver-blue.svg)
+
 A **Claude Code plugin** that turns your agent into a CTF competitor — 9 category skills, 107 battle-tested technique files, and an autonomous `ctf-solver` subagent. Not vibe hacking: every technique is distilled from real CTFTime writeups.
 
 > Built on [ljagiello/ctf-skills](https://github.com/ljagiello/ctf-skills) (MIT). This project packages it as a Claude Code plugin and adds the autonomous `ctf-solver` subagent.
@@ -75,6 +79,23 @@ Install [Friday](https://hellofriday.ai/) (macOS), open **Skills → + Add**, an
 
 Every category skill's `SKILL.md` lists its full technique index and a **Prerequisites** section naming only the tools it needs.
 
+## The basic workflow
+
+Point it at a challenge and let it drive:
+
+```text
+/ctf-skills:solve-challenge ./chal            # a downloaded binary or archive
+/ctf-skills:solve-challenge https://ctf.example.com/web/42   # a live target
+```
+
+It triages the challenge, loads the matching category skill, works the attack, and reports the flag. For a fully autonomous run in its own context, hand it to the subagent instead:
+
+```text
+@ctf-skills:ctf-solver ./chal
+```
+
+You never pick a category — the model recognizes it and pulls the right skill in on its own.
+
 ## Environment setup
 
 Skills work out of the box; tooling is installed on demand. Before a competition you can pre-install everything:
@@ -94,6 +115,16 @@ Scoped installs (`python`, `apt`, `brew`, `gems`, `go`, `manual`), `--dry-run`, 
 ## Credits
 
 Category skills and technique library by [Lukasz Jagiello](https://github.com/ljagiello) — [ljagiello/ctf-skills](https://github.com/ljagiello/ctf-skills), MIT. This repo repackages that work as a Claude Code plugin and adds the `ctf-solver` subagent.
+
+## Updating
+
+If you installed into your skills directory, pull the latest and reload:
+
+```bash
+cd ~/.claude/skills/ctf-skills && git pull
+```
+
+Then run `/reload-plugins` in Claude Code to pick up the changes without restarting.
 
 ## Contributing
 
