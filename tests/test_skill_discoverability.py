@@ -174,11 +174,13 @@ def _tokenize(text: str) -> set[str]:
 def _load_descriptions() -> dict[str, dict[str, set[str]]]:
     """Load positive and negative tokens from each core skill description."""
     descriptions: dict[str, dict[str, set[str]]] = {}
-    for skill_dir in sorted(REPO_ROOT.glob("*/SKILL.md")):
-        name = skill_dir.parent.name
+    skills_dir = REPO_ROOT / "skills"
+    search_paths = sorted(skills_dir.glob("*/SKILL.md")) if skills_dir.is_dir() else sorted(REPO_ROOT.glob("*/SKILL.md"))
+    for skill_path in search_paths:
+        name = skill_path.parent.name
         if name not in CORE_SKILLS:
             continue
-        text = skill_dir.read_text(encoding="utf-8")
+        text = skill_path.read_text(encoding="utf-8")
         fm = _parse_frontmatter(text)
         if fm is None:
             continue

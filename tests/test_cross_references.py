@@ -13,8 +13,16 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
+def _discover_skills() -> list[Path]:
+    skills_dir = REPO_ROOT / "skills"
+    if skills_dir.is_dir():
+        skills = sorted(p.parent for p in skills_dir.glob("*/SKILL.md"))
+        if skills:
+            return skills
+    return sorted(p.parent for p in REPO_ROOT.glob("*/SKILL.md"))
+
 # Directories that contain skills
-SKILL_DIRS = sorted(p.parent for p in REPO_ROOT.glob("*/SKILL.md"))
+SKILL_DIRS = _discover_skills()
 
 
 def _slugify_heading(heading: str) -> str:
