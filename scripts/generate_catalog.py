@@ -142,7 +142,7 @@ def build_html(skills: list[dict]) -> str:
         if s["techniques"]:
             items = []
             for t in s["techniques"]:
-                gh_link = f"{_get_repo_url()}/blob/main/{s['dir_name']}/{t['file']}"
+                gh_link = f"{_get_repo_url()}/blob/main/{s['rel_path']}/{t['file']}"
                 label = html.escape(t["name"])
                 items.append(
                     f'<li><a href="{gh_link}" target="_blank"'
@@ -151,7 +151,7 @@ def build_html(skills: list[dict]) -> str:
             tech_list = f'<ul class="technique-list">{"".join(items)}</ul>'
 
         repo = _get_repo_url()
-        skill_link = f"{repo}/blob/main/{s['dir_name']}/SKILL.md"
+        skill_link = f"{repo}/blob/main/{s['rel_path']}/SKILL.md"
         cards.append(f"""
     <div class="card" style="border-top: 4px solid {color}">
       <a class="card-link" href="{skill_link}"
@@ -358,6 +358,7 @@ def main() -> None:
         skills.append(
             {
                 "dir_name": skill_dir.name,
+                "rel_path": skill_dir.relative_to(REPO_ROOT).as_posix(),
                 "description": fm.get("description", ""),
                 "techniques": techniques,
             }
