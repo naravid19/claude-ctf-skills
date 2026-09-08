@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "ctf-skills",
+  "displayName": "CTF Skills",
+  "version": "1.0.0",
+  "description": "Comprehensive Agent Skills and autonomous CTF solver agent for solving Capture The Flag challenges across Web, Pwn, Crypto, Reverse, Forensics, OSINT, AI/ML, Malware, and Misc.",
+  "author": {
+    "name": "Lukasz Jagiello",
+    "url": "https://github.com/ljagiello"
+  },
+  "homepage": "https://github.com/ljagiello/ctf-skills",
+  "repository": "https://github.com/ljagiello/ctf-skills",
+  "license": "MIT",
+  "keywords": [
+    "ctf",
+    "security",
+    "cybersecurity",
+    "reverse-engineering",
+    "binary-exploitation",
+    "pwn",
+    "cryptography",
+    "forensics",
+    "web-exploitation",
+    "osint",
+    "agent-skills"
+  ]
+}
