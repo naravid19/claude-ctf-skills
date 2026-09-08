@@ -22,7 +22,18 @@ Two entry points you drive yourself:
 ## Installation (30 seconds)
 
 <details open>
-<summary><b>Claude Code — skills-directory plugin (recommended, auto-loads everywhere)</b></summary>
+<summary><b>Claude Code — via marketplace (recommended)</b></summary>
+
+This repo is its own marketplace. In Claude Code:
+
+```text
+/plugin marketplace add naravid19/claude-ctf-skills
+/plugin install ctf-skills@claude-ctf-skills
+```
+</details>
+
+<details>
+<summary><b>Claude Code — skills-directory plugin (auto-loads everywhere)</b></summary>
 
 ```bash
 git clone https://github.com/naravid19/claude-ctf-skills ~/.claude/skills/ctf-skills

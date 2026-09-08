@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-marketplace.json",
+  "name": "claude-ctf-skills",
+  "owner": {
+    "name": "Narawit",
+    "url": "https://github.com/naravid19"
+  },
+  "metadata": {
+    "description": "A Claude Code marketplace for CTF skills — an autonomous solver subagent and category skills for Capture The Flag challenges."
+  },
+  "plugins": [
+    {
+      "name": "ctf-skills",
+      "source": "./",
+      "displayName": "CTF Skills",
+      "description": "Autonomous CTF solver subagent + 9 category skills (web, pwn, crypto, reverse, forensics, OSINT, AI/ML, malware, misc) for Claude Code.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "homepage": "https://github.com/naravid19/claude-ctf-skills",
+      "keywords": ["ctf", "security", "pwn", "cryptography", "forensics", "web-exploitation", "osint", "agent-skills"]
+    }
+  ]
+}
