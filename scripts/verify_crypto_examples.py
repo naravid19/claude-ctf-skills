@@ -242,6 +242,8 @@ def main() -> None:
     args = parser.parse_args()
 
     root = Path(args.root)
+    if not root.exists() and (Path("skills") / args.root).is_dir():
+        root = Path("skills") / args.root
     if not root.exists():
         print(f"error: root {root} does not exist", file=sys.stderr)
         sys.exit(2)

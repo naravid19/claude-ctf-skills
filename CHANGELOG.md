@@ -37,6 +37,8 @@ Major upstream sync from [ljagiello/ctf-skills](https://github.com/ljagiello/ctf
 - Modernized `ctf-crypto` techniques away from SageMath reliance toward pure Python, `fpylll`, `gmpy2`, and `sympy`.
 - Greatly expanded `ctf-misc/pyjails.md` and `ctf-misc/bashjails.md` with modern audit hook trampolines and BASH_ENV vectors.
 - Enhanced `scripts/install_ctf_tools.sh` with installations for `unicorn`, `capstone`, `ropper`, and `fpylll`.
+- Updated `CONTRIBUTING.md` with PayloadsAllTheThings external bulk wordlist guidelines and crypto verification testing commands.
+- Enhanced `scripts/verify_crypto_examples.py` with automatic `skills/` path detection for plugin directory layouts.
 
 ### Fixed
 

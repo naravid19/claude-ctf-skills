@@ -76,6 +76,10 @@ After adding a technique, update the parent `SKILL.md`:
 
 Update the skill's row in `README.md`: increment the **Files** count if you added a new file, and add the technique name to the **Description** column.
 
+### PayloadsAllTheThings — external bulk payloads (ctf-web)
+
+Bulk web payloads live externally in [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings) — on-demand clone, gitignored at `skills/ctf-web/payloads/` and `~/.ctf-tools/PayloadsAllTheThings` (installed via `bash scripts/install_ctf_tools.sh pat`, included in `all`). Don't copy bulk wordlists into technique files. Instead, add a reference to `skills/ctf-web/pat-reference.md` and include at most 2–3 exemplar payloads inline with attribution. The installer and `ctf-web` skill handle lazy cloning when the payloads dir is missing.
+
 ## Creating a New Skill Category
 
 A new skill category is a directory inside `skills/` containing at minimum a `SKILL.md` file (e.g. `skills/ctf-newcategory/SKILL.md`).
@@ -109,6 +113,8 @@ Frontmatter rules enforced by tests:
 
 ## Running Tests Locally
 
+Run tests with the project's Python (CI uses 3.14).
+
 ```bash
 # Run all tests
 python -m pytest tests/ -v
@@ -116,9 +122,17 @@ python -m pytest tests/ -v
 # Run just the frontmatter validation
 python -m pytest tests/test_skill_frontmatter.py -v
 
+# Crypto snippet vectors (pure-Python, Sage fallbacks collapsed)
+python -m pytest tests/test_crypto_snippets.py -v
+
+# Verify all ctf-crypto python code blocks compile / syntax-check
+python scripts/verify_crypto_examples.py
+
 # Run the security auditor on a specific skill
 python3 scripts/skill_security_auditor.py skills/ctf-web --strict --json
 ```
+
+Local scratch (one-off experiments, ad-hoc scripts) should not be committed. Keep the tree clean of `.venv/`/`venv/` and stray debug files.
 
 ### Running pre-commit checks manually
 
