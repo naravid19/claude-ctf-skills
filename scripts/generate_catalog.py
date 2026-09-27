@@ -45,17 +45,17 @@ def _get_repo_url() -> str:
 
 
 CATEGORY_COLORS = {
-    "ctf-web": "#0ea5e9",        # Sky Cyan
-    "ctf-pwn": "#f97316",        # Orange Red
-    "ctf-crypto": "#10b981",     # Emerald
-    "ctf-reverse": "#8b5cf6",    # Violet
+    "ctf-web": "#0ea5e9",  # Sky Cyan
+    "ctf-pwn": "#f97316",  # Orange Red
+    "ctf-crypto": "#10b981",  # Emerald
+    "ctf-reverse": "#8b5cf6",  # Violet
     "ctf-forensics": "#06b6d4",  # Cyan
-    "ctf-osint": "#eab308",      # Amber
-    "ctf-malware": "#ef4444",    # Crimson
-    "ctf-misc": "#6366f1",       # Indigo
-    "ctf-ai-ml": "#ec4899",      # Rose Pink
-    "ctf-writeup": "#94a3b8",    # Slate
-    "solve-challenge": "#14b8a6", # Teal
+    "ctf-osint": "#eab308",  # Amber
+    "ctf-malware": "#ef4444",  # Crimson
+    "ctf-misc": "#6366f1",  # Indigo
+    "ctf-ai-ml": "#ec4899",  # Rose Pink
+    "ctf-writeup": "#94a3b8",  # Slate
+    "solve-challenge": "#14b8a6",  # Teal
 }
 
 CATEGORY_ICONS = {
@@ -162,9 +162,14 @@ def build_html(skills: list[dict]) -> str:
             gh_link = f"{repo}/blob/main/{rel_path}/{t['file']}"
             label = html.escape(t["name"])
             tech_items.append(
-                f'<li class="tech-item"><a href="{gh_link}" target="_blank" rel="noopener noreferrer">{label}</a></li>'
+                f'<li class="tech-item"><a href="{gh_link}" target="_blank" '
+                f'rel="noopener noreferrer">{label}</a></li>'
             )
-        tech_list = f'<ul class="technique-list">{"".join(tech_items)}</ul>' if tech_items else ""
+        tech_list = (
+            f'<ul class="technique-list">{"".join(tech_items)}</ul>'
+            if tech_items
+            else ""
+        )
 
         # Script badges (Exploit & Automation Suite)
         script_block = ""
@@ -174,7 +179,8 @@ def build_html(skills: list[dict]) -> str:
                 gh_link = f"{repo}/blob/main/{rel_path}/{sc['file']}"
                 label = html.escape(sc["name"])
                 script_items.append(
-                    f'<li class="script-item"><a href="{gh_link}" target="_blank" rel="noopener noreferrer">⚡ {label}</a></li>'
+                    f'<li class="script-item"><a href="{gh_link}" '
+                    f'target="_blank" rel="noopener noreferrer">⚡ {label}</a></li>'
                 )
             script_block = f"""
             <div class="scripts-section">
@@ -182,18 +188,29 @@ def build_html(skills: list[dict]) -> str:
               <ul class="scripts-list">{"".join(script_items)}</ul>
             </div>"""
 
-        badge_scripts = f'<span class="badge badge-script">{script_count} script{"s" if script_count != 1 else ""}</span>' if script_count else ""
+        badge_scripts = (
+            f'<span class="badge badge-script">{script_count} '
+            f"script{'s' if script_count != 1 else ''}</span>"
+            if script_count
+            else ""
+        )
 
+        cat_escaped = html.escape(s["dir_name"])
+        doc_count_lbl = f"{tech_count} doc{'s' if tech_count != 1 else ''}"
+        badge_style = (
+            f"background:{color}22; color:{color}; border: 1px solid {color}55;"
+        )
         cards.append(f"""
-    <div class="card" data-category="{html.escape(s['dir_name'])}" style="--card-accent: {color}">
+    <div class="card" data-category="{cat_escaped}" style="--card-accent: {color}">
       <div class="card-accent-bar" style="background: {color};"></div>
       <div class="card-body">
-        <a class="card-link" href="{skill_link}" target="_blank" rel="noopener noreferrer">
+        <a class="card-link" href="{skill_link}"
+           target="_blank" rel="noopener noreferrer">
           <div class="card-header">
             <span class="icon">{icon}</span>
-            <h2>{html.escape(s["dir_name"])}</h2>
+            <h2>{cat_escaped}</h2>
             <div class="badges">
-              <span class="badge" style="background:{color}22; color:{color}; border: 1px solid {color}55;">{tech_count} doc{"s" if tech_count != 1 else ""}</span>
+              <span class="badge" style="{badge_style}">{doc_count_lbl}</span>
               {badge_scripts}
             </div>
           </div>
@@ -207,10 +224,20 @@ def build_html(skills: list[dict]) -> str:
     </div>""")
 
     # Category filter pills
-    category_pills = ['<button class="filter-pill active" data-filter="all">All Skills</button>']
+    category_pills = [
+        '<button class="filter-pill active" data-filter="all">All Skills</button>'
+    ]
     for s in skills:
-        pill_name = s["dir_name"]
-        category_pills.append(f'<button class="filter-pill" data-filter="{html.escape(pill_name)}">{html.escape(pill_name)}</button>')
+        p_name = html.escape(s["dir_name"])
+        category_pills.append(
+            f'<button class="filter-pill" data-filter="{p_name}">{p_name}</button>'
+        )
+
+    meta_desc = (
+        "Agent Skills & autonomous solver for CTF competitions: "
+        "Web, Pwn, Crypto, Reverse, Forensics, OSINT, AI/ML, Malware, and Misc."
+    )
+    search_placeholder = "Search techniques, vulnerabilities, or scripts..."
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -218,8 +245,7 @@ def build_html(skills: list[dict]) -> str:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CTF Skills Catalog — Claude Code Plugin</title>
-  <meta name="description" content="Agent Skills & autonomous solver for CTF competitions: Web, Pwn, Crypto, Reverse, Forensics, OSINT, AI/ML, Malware, and Misc.">
-  
+  <meta name="description" content="{meta_desc}">
   <style>
     :root {{
       --bg: #09090b;
@@ -233,8 +259,10 @@ def build_html(skills: list[dict]) -> str:
       --accent: #06b6d4;
       --accent-glow: rgba(6, 182, 212, 0.15);
       --emerald: #10b981;
-      --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo,\
+ Consolas, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,\
+ Inter, Helvetica, Arial, sans-serif;
     }}
     * {{ margin: 0; padding: 0; box-sizing: border-box; }}
     body {{
@@ -250,7 +278,6 @@ def build_html(skills: list[dict]) -> str:
       max-width: 1280px;
       margin: 0 auto;
     }}
-    
     /* Header */
     header {{
       text-align: center;
@@ -296,7 +323,6 @@ def build_html(skills: list[dict]) -> str:
       max-width: 700px;
       margin: 0 auto;
     }}
-
     /* Stats bar */
     .stats-bar {{
       display: flex;
@@ -327,7 +353,6 @@ def build_html(skills: list[dict]) -> str:
       letter-spacing: 0.05em;
       font-weight: 600;
     }}
-
     /* Installation Box */
     .install-box {{
       max-width: 680px;
@@ -381,7 +406,6 @@ def build_html(skills: list[dict]) -> str:
       border-color: var(--emerald);
       color: var(--emerald);
     }}
-
     /* Controls Bar (Search + Filters) */
     .controls-wrapper {{
       margin: 2rem 0;
@@ -431,7 +455,6 @@ def build_html(skills: list[dict]) -> str:
       color: var(--text-muted);
       white-space: nowrap;
     }}
-    
     /* Category Filter Pills */
     .filter-pills {{
       display: flex;
@@ -460,7 +483,6 @@ def build_html(skills: list[dict]) -> str:
       border-color: var(--text);
       font-weight: 600;
     }}
-
     /* Grid & Cards */
     .grid {{
       display: grid;
@@ -546,7 +568,6 @@ def build_html(skills: list[dict]) -> str:
       overflow: hidden;
       min-height: 3.8rem;
     }}
-
     /* Exploit Scripts Section in Card */
     .scripts-section {{
       margin: 0.75rem 0;
@@ -586,7 +607,6 @@ def build_html(skills: list[dict]) -> str:
       background: rgba(16, 185, 129, 0.3);
       color: #a7f3d0;
     }}
-
     /* Techniques List in Card */
     .tech-section {{
       margin-top: auto;
@@ -615,7 +635,6 @@ def build_html(skills: list[dict]) -> str:
       border-color: #52525b;
       background: var(--surface-elevated);
     }}
-
     /* Empty state */
     .no-results {{
       grid-column: 1 / -1;
@@ -628,7 +647,6 @@ def build_html(skills: list[dict]) -> str:
     .no-results.visible {{
       display: block;
     }}
-
     /* Footer */
     footer {{
       text-align: center;
@@ -666,8 +684,8 @@ def build_html(skills: list[dict]) -> str:
         <span>CLAUDE CODE PLUGIN CATALOG v1.1.0</span>
       </div>
       <h1>CTF Skills Catalog</h1>
-      <p>Battle-tested Agent Skills, technique documentation, and automated exploit templates for Capture The Flag competitions.</p>
-      
+      <p>Battle-tested Agent Skills, technique documentation, and automated \
+exploit templates for Capture The Flag competitions.</p>
       <div class="stats-bar">
         <div class="stat-pill">
           <span class="stat-val">{total_categories}</span>
@@ -699,9 +717,11 @@ def build_html(skills: list[dict]) -> str:
       <div class="search-row">
         <div class="search-input-wrap">
           <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" class="search-input" placeholder="Search techniques, vulnerabilities (e.g. rop, unicorn, sqli), or scripts..." autocomplete="off">
+          <input type="text" id="searchInput" class="search-input" \
+placeholder="{search_placeholder}" autocomplete="off">
         </div>
-        <div class="search-counter" id="searchCounter">Showing {total_categories} categories</div>
+        <div class="search-counter" id="searchCounter">\
+Showing {total_categories} categories</div>
       </div>
 
       <div class="filter-pills" id="filterPills">
@@ -719,11 +739,14 @@ def build_html(skills: list[dict]) -> str:
 
     <footer>
       <div class="links">
-        <a href="{repo}" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+        <a href="{repo}" target="_blank" rel="noopener noreferrer">\
+GitHub Repository</a>
         &middot;
-        <a href="https://github.com/ljagiello/ctf-skills" target="_blank" rel="noopener noreferrer">Upstream Base (ljagiello)</a>
+        <a href="https://github.com/ljagiello/ctf-skills" target="_blank" \
+rel="noopener noreferrer">Upstream Base (ljagiello)</a>
         &middot;
-        <a href="https://agentskills.io" target="_blank" rel="noopener noreferrer">Agent Skills Spec</a>
+        <a href="https://agentskills.io" target="_blank" \
+rel="noopener noreferrer">Agent Skills Spec</a>
         &middot;
         <span>MIT License</span>
       </div>
@@ -761,12 +784,10 @@ def build_html(skills: list[dict]) -> str:
     function filterGrid() {{
       const query = searchInput.value.toLowerCase().trim();
       let visibleCount = 0;
-      let matchedTechs = 0;
 
       cards.forEach(card => {{
         const cat = card.getAttribute('data-category');
         const text = card.innerText.toLowerCase();
-        
         const matchesCategory = (activeFilter === 'all' || cat === activeFilter);
         const matchesQuery = (!query || text.includes(query));
 
@@ -778,7 +799,8 @@ def build_html(skills: list[dict]) -> str:
         }}
       }});
 
-      searchCounter.innerText = `Showing ${{visibleCount}} of ${{cards.length}} categories`;
+      searchCounter.innerText = `Showing ${{visibleCount}} of ` +
+        `${{cards.length}} categories`;
       noResults.classList.toggle('visible', visibleCount === 0);
     }}
 
@@ -820,7 +842,10 @@ def main() -> None:
     print(f"Catalog generated: {OUT_DIR / 'index.html'}")
     total_tech = sum(len(s["techniques"]) for s in skills)
     total_sc = sum(len(s["scripts"]) for s in skills)
-    print(f"  {len(skills)} skills, {total_tech} technique files, {total_sc} exploit scripts")
+    print(
+        f"  {len(skills)} skills, {total_tech} technique files, "
+        f"{total_sc} exploit scripts"
+    )
 
 
 if __name__ == "__main__":
