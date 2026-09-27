@@ -27,5 +27,7 @@ Thumbs.db
 reference/
 docs/*
 !docs/agents/
+!docs/agents/**
 !docs/adr/
+!docs/adr/**
 
