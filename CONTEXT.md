@@ -22,6 +22,12 @@ Infrastructure and developer tools stored in the repository root `scripts/` dire
 ### Upstream Mirroring
 The process of synchronizing updated CTF attack techniques, reference guides, and algorithmic implementations from the upstream repository (`ljagiello/ctf-skills`) into this plugin repository while preserving plugin directory structure.
 
+### Catalog Generator
+The static website generator script (`scripts/generate_catalog.py`) that compiles skill frontmatter, technique docs, and exploit scripts into an interactive, zero-dependency search dashboard deployed to GitHub Pages (`_site/`).
+
+### Exploit Automation Suite
+The collection of verified, ready-to-run Python exploitation templates (e.g. format strings, two-stage ret2libc, SROP, seccomp ORW, and async HTTP fuzzers) colocated in skill `scripts/` directories.
+
 ### Triage Roles
 The five canonical roles used to classify incoming tasks, issues, and pull requests:
 - `needs-triage`: Awaiting evaluation by maintainers.

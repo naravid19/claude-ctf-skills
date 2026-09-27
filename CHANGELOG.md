@@ -23,10 +23,17 @@ Major upstream sync from [ljagiello/ctf-skills](https://github.com/ljagiello/ctf
 - **Engineering documentation & architecture**:
   - `CONTEXT.md`: Project domain glossary for Claude Code plugin layout and conventions.
   - `docs/adr/0001-claude-plugin-layout.md`: Architectural decision record for plugin directory separation.
+  - `docs/adr/0002-catalog-ui-and-documentation-architecture.md`: Architectural decision record for web catalog UI and documentation standards.
   - `docs/agents/`: Configuration for issue tracker, triage labels, and domain doc consumption.
+- **Web Catalog (GitHub Pages)**:
+  - Redesigned `scripts/generate_catalog.py` with Terminal Cyber Dark aesthetic (Zinc-950/Cyan/Emerald palette).
+  - Added zero-dependency, real-time client-side search across skills, techniques, and scripts.
+  - Added category filter pills and 1-click clipboard copy widget for `/plugin marketplace add`.
+  - Added first-class discovery and tags for skill-scoped exploit scripts.
 
 ### Changed
 
+- Complete overhaul of `README.md`: Added Mermaid workflow diagram, comprehensive category and tool matrix (11 categories, 113 technique documents, 6 exploit scripts), detailed exploit template guides, toolchain installation groups, and testing/auditing workflows.
 - Modernized `ctf-crypto` techniques away from SageMath reliance toward pure Python, `fpylll`, `gmpy2`, and `sympy`.
 - Greatly expanded `ctf-misc/pyjails.md` and `ctf-misc/bashjails.md` with modern audit hook trampolines and BASH_ENV vectors.
 - Enhanced `scripts/install_ctf_tools.sh` with installations for `unicorn`, `capstone`, `ropper`, and `fpylll`.

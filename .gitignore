@@ -25,9 +25,4 @@ Thumbs.db
 
 # Local-only (not published)
 reference/
-docs/*
-!docs/agents/
-!docs/agents/**
-!docs/adr/
-!docs/adr/**
-
+docs/
