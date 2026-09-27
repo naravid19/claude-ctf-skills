@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "ctf-skills",
   "displayName": "CTF Skills",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Comprehensive Agent Skills and autonomous CTF solver agent for solving Capture The Flag challenges across Web, Pwn, Crypto, Reverse, Forensics, OSINT, AI/ML, Malware, and Misc.",
   "author": {
     "name": "Narawit",

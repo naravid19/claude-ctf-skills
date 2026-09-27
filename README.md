@@ -70,15 +70,15 @@ Install [Friday](https://hellofriday.ai/) (macOS), open **Skills → + Add**, an
 
 | Skill | Files | Coverage |
 |-------|:-----:|----------|
-| **ctf-web** | 20 | XSS, SQLi, SSTI, SSRF, XXE, JWT, auth bypass, prototype pollution, file-upload RCE, Web3/Solidity |
-| **ctf-pwn** | 18 | Buffer overflows, format strings, heap, ROP/ret2libc, shellcode, kernel, seccomp/sandbox escape |
-| **ctf-reverse** | 18 | Binaries, APK, WASM, firmware, custom VMs, bytecode, anti-debug and anti-analysis |
-| **ctf-crypto** | 16 | RSA, AES, ECC, lattices/LWE/CVP, PRNG, padding oracle, signatures, ZKP, number theory |
-| **ctf-forensics** | 14 | Disk/memory images, PCAP, steganography, registry, Volatility, side-channel, audio/RF |
-| **ctf-misc** | 12 | Encoding puzzles, pyjails, RF/SDR, esoteric langs, QR/audio, constraint solving |
-| **ctf-ai-ml** | 3 | Adversarial examples, prompt injection, model extraction, membership inference, LoRA, LLM jailbreak |
-| **ctf-malware** | 3 | Obfuscated scripts, C2 traffic, PE/.NET, shellcode, YARA, anti-analysis, IOC extraction |
-| **ctf-osint** | 3 | Geolocation, DNS, username enumeration, reverse image search, Google dorking, Wayback |
+| **ctf-web** | 24 | XSS, SQLi, SSTI, SSRF, XXE, JWT, auth bypass, PAT, python-requests, async fuzzing, prototype pollution, file-upload RCE, Web3/Solidity |
+| **ctf-pwn** | 24 | Buffer overflows, format strings, heap, ROP/ret2libc, shellcraft asm, SROP, seccomp ORW, kernel, sandbox escapes + generator scripts |
+| **ctf-reverse** | 20 | Binaries, APK, WASM, firmware, custom VMs, bytecode, anti-debug, Unicorn engine CPU emulation |
+| **ctf-crypto** | 20 | RSA, AES, ECC, lattices/LWE/CVP, PRNG, DH confinement, Poly1305, post-quantum, signatures, ZKP, number theory |
+| **ctf-forensics** | 15 | Disk/memory images, PCAP, steganography, registry, Volatility 3, side-channel, audio/RF |
+| **ctf-misc** | 13 | Encoding puzzles, pyjails (audit-hook trampolines), bashjails (BASH_ENV), RF/SDR, esoteric langs, QR polyglots |
+| **ctf-ai-ml** | 4 | Adversarial examples, prompt injection, model extraction, membership inference, LoRA, LLM jailbreak |
+| **ctf-malware** | 4 | Obfuscated scripts, C2 traffic, PE/.NET, shellcode, YARA, anti-analysis, IOC extraction |
+| **ctf-osint** | 4 | Geolocation, DNS, username enumeration, reverse image search, Google dorking, Wayback |
 
 **Orchestrators** — user-invoked, you run them directly:
 
