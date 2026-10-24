@@ -2,6 +2,29 @@
 
 All notable changes to this project are documented here. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.2.0 — 2026-10-24
+
+Upstream sync from [ljagiello/ctf-skills](https://github.com/ljagiello/ctf-skills) (`c332c7b` through `2b396aa`, 13 commits), translating `<skill>/` paths to `skills/<skill>/` per ADR 0001.
+
+### Added
+
+- **New skill**: `ctf-similar-search` — Tavily-API-backed search/extract for similar CTF writeups (needs `TAVILY_API_KEY`); scripts relocated to `skills/ctf-similar-search/scripts/` to match the repo's skill-scoped-script convention.
+- **`ctf-pwn/pwnable-tw/`**: 43 solved pwnable.tw challenge writeups plus an index `README.md`, as reference material for `ctf-pwn` and the `ctf-solver` subagent.
+- **New technique docs**: `ctf-reverse/mba-simplification.md` (msynth), `ctf-reverse/radare2-r2pipe.md` (r2ghidra, ESIL, r2frida), `ctf-pwn/attack-playbook.md`, `ctf-pwn/static-signals.md`, `ctf-web/auth-infra.md`, `ctf-web/auth-jwt.md`, `ctf-web/client-side.md`, `ctf-misc/audio.md`, `solve-challenge/difficulty-routing.md`.
+- **MCP server integration guides** (`tools-mcp.md`) for `ctf-pwn`, `ctf-reverse`, `ctf-web`, `ctf-osint`, `ctf-malware` (IDA/Ghidra/JADX/WinDbg/Playwright/Burp).
+- `tests/test_reverse_r2_snippets.py` for the new radare2/r2pipe snippets.
+
+### Changed
+
+- Updated crypto/forensics/osint/misc/pwn/reverse/web technique docs, `scripts/install_ctf_tools.sh`, `tests/test_pwn_scripts.py`, and `skills/ctf-pwn/scripts/shellcraft_asm.py` with upstream fixes and additions.
+- README category table and architecture diagram counts refreshed for the categories touched by this sync.
+- CONTRIBUTING.md: documented the `TAVILY_API_KEY` external-service requirement for `ctf-similar-search`, next to the existing PayloadsAllTheThings note.
+
+### Not ported
+
+- Upstream's `evals/` (promptfoo/Node eval suite with its own `package-lock.json` and binary fixtures) — different stack from this repo's pytest `tests/`; not adopted.
+- Upstream's `.opencode/` agent definitions — a different agent framework, not the Claude Code plugin shape this repo targets.
+
 ## 1.1.0 — 2026-09-27
 
 Major upstream sync from [ljagiello/ctf-skills](https://github.com/ljagiello/ctf-skills) (modernization commit `61c2efe` through `c332c7b`), incorporating over 10,000 lines of modern CTF attack techniques, scripts, and test suites.

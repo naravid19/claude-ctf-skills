@@ -31,15 +31,16 @@ flowchart TD
     ModelSelect --> CategorySkills
 
     subgraph CategorySkills ["Specialized Category Skills (skills/)"]
-        Web["ctf-web (24 docs + async_fuzz)"]
-        Pwn["ctf-pwn (18 docs + 5 scripts)"]
-        Reverse["ctf-reverse (20 docs incl. Unicorn)"]
+        Web["ctf-web (23 docs + async_fuzz)"]
+        Pwn["ctf-pwn (21 docs + 5 scripts + 43 pwnable.tw writeups)"]
+        Reverse["ctf-reverse (22 docs incl. Unicorn & r2pipe)"]
         Crypto["ctf-crypto (20 docs incl. Post-Quantum & DH)"]
         Forensics["ctf-forensics (15 docs)"]
         Misc["ctf-misc (13 docs incl. Pyjail & Bashjail)"]
         AIML["ctf-ai-ml (4 docs)"]
         Malware["ctf-malware (4 docs)"]
         OSINT["ctf-osint (4 docs)"]
+        SimilarSearch["ctf-similar-search (Tavily writeup search)"]
     end
 
     subgraph ToolingLayer ["Execution & Exploit Tools"]
@@ -115,21 +116,22 @@ npx skills add naravid19/claude-ctf-skills
 
 | Skill | Docs | Scripts | Key Techniques & Attack Vectors |
 |---|:---:|:---:|---|
-| [**ctf-web**](skills/ctf-web/SKILL.md) | 24 | 1 | XSS, SQLi, SSTI, SSRF, XXE, JWT forgery, auth bypass, Port Address Translation (PAT), python-requests toolkit, prototype pollution, Web3/Solidity smart contracts |
-| [**ctf-pwn**](skills/ctf-pwn/SKILL.md) | 18 | 5 | Stack overflows, format string exploitation, glibc heap bins (tcache/fastbin/unsorted), ROP/ret2libc, SROP, seccomp sandbox bypass (ORW), kernel exploitation |
-| [**ctf-reverse**](skills/ctf-reverse/SKILL.md) | 20 | — | ELF/PE binaries, APK reverse engineering, WebAssembly (WASM), firmware, custom VM bytecode architectures, Unicorn Engine CPU emulation |
+| [**ctf-web**](skills/ctf-web/SKILL.md) | 23 | 1 | XSS, SQLi, SSTI, SSRF, XXE, JWT forgery, auth bypass, Port Address Translation (PAT), python-requests toolkit, prototype pollution, Web3/Solidity smart contracts, MCP tooling |
+| [**ctf-pwn**](skills/ctf-pwn/SKILL.md) | 21 (+43 pwnable.tw writeups) | 5 | Stack overflows, format string exploitation, glibc heap bins (tcache/fastbin/unsorted), ROP/ret2libc, SROP, seccomp sandbox bypass (ORW), kernel exploitation, userland attack playbook |
+| [**ctf-reverse**](skills/ctf-reverse/SKILL.md) | 22 | — | ELF/PE binaries, APK reverse engineering, WebAssembly (WASM), firmware, custom VM bytecode architectures, Unicorn Engine CPU emulation, radare2/r2pipe scripting, MBA simplification |
 | [**ctf-crypto**](skills/ctf-crypto/SKILL.md) | 20 | — | RSA (Coppersmith, Wiener, Bleichenbacher), AES modes, ECC (Pollard rho, invalid curve), lattices (LLL, CVP, LWE), Diffie-Hellman confinement, Poly1305, Post-Quantum, ZKP |
 | [**ctf-forensics**](skills/ctf-forensics/SKILL.md) | 15 | — | Memory analysis (Volatility 3), ext4/NTFS disk images, PCAP network streams, steganography, registry forensics, side-channel power/timing, audio & SDR |
 | [**ctf-misc**](skills/ctf-misc/SKILL.md) | 13 | — | Pyjail sandbox escapes (audit-hook trampolines), Bashjail escapes (`BASH_ENV` injection), esoteric languages, QR polyglots, z3 constraint solving |
 | [**ctf-ai-ml**](skills/ctf-ai-ml/SKILL.md) | 4 | — | Adversarial perturbation (FGSM), prompt injection, LLM jailbreaks, model extraction, training data poisoning, LoRA adapter tampering |
-| [**ctf-malware**](skills/ctf-malware/SKILL.md) | 4 | — | PowerShell/VBS deobfuscation, C2 traffic extraction, PE/.NET reversing, shellcode extraction, YARA rule generation, anti-analysis detection |
-| [**ctf-osint**](skills/ctf-osint/SKILL.md) | 4 | — | Geolocation, DNS infrastructure, username correlation, reverse image search, Google dorking, Wayback Machine archives |
+| [**ctf-malware**](skills/ctf-malware/SKILL.md) | 4 | — | PowerShell/VBS deobfuscation, C2 traffic extraction, PE/.NET reversing, shellcode extraction, YARA rule generation, anti-analysis detection, MCP tooling |
+| [**ctf-osint**](skills/ctf-osint/SKILL.md) | 4 | — | Geolocation, DNS infrastructure, username correlation, reverse image search, Google dorking, Wayback Machine archives, MCP tooling |
 
 ### 2. Orchestrator Skills (User-Invoked)
 
 | Skill | Invocation Command | Description |
 |---|---|---|
 | [**solve-challenge**](skills/solve-challenge/SKILL.md) | `/ctf-skills:solve-challenge <target>` | Analyzes an unknown binary, source folder, or URL and routes directly to the right category. |
+| [**ctf-similar-search**](skills/ctf-similar-search/SKILL.md) | `/ctf-skills:ctf-similar-search <clues>` | Searches/extracts similar CTF writeups via the Tavily API; needs `TAVILY_API_KEY`. |
 | [**ctf-writeup**](skills/ctf-writeup/SKILL.md) | `/ctf-skills:ctf-writeup` | Converts the active solving session, commands run, and flag into a clean markdown writeup. |
 | [**ctf-solver**](agents/ctf-solver.md) | `@ctf-skills:ctf-solver <target>` | Autonomous custom subagent that triages, inspects, executes payloads, and extracts the flag in its own context. |
 
