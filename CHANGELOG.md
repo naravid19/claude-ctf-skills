@@ -25,6 +25,11 @@ Upstream sync from [ljagiello/ctf-skills](https://github.com/ljagiello/ctf-skill
 - Upstream's `evals/` (promptfoo/Node eval suite with its own `package-lock.json` and binary fixtures) — different stack from this repo's pytest `tests/`; not adopted.
 - Upstream's `.opencode/` agent definitions — a different agent framework, not the Claude Code plugin shape this repo targets.
 
+### Verification
+
+- `pytest tests/` (minus the pre-existing, unrelated `test_skill_security_auditor.py` import error), `scripts/verify_crypto_examples.py`, and `markdownlint-cli2` ran clean on every phase.
+- `lychee` (link checking) was **not** run for this sync — it needs network access this session didn't exercise. Flagging it here rather than leaving it a silent gap; a future sync (or this repo's CI) should run `lychee` over the new/changed files before relying on this entry as a complete verification record.
+
 ## 1.1.0 — 2026-09-27
 
 Major upstream sync from [ljagiello/ctf-skills](https://github.com/ljagiello/ctf-skills) (modernization commit `61c2efe` through `c332c7b`), incorporating over 10,000 lines of modern CTF attack techniques, scripts, and test suites.

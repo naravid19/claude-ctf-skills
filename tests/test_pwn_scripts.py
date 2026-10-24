@@ -342,7 +342,7 @@ class TestPwnScripts(unittest.TestCase):
 # ---------------------------------------------------------------------------
 # Real-import test — loads the actual ctf-pwn/scripts/*.py files
 # ---------------------------------------------------------------------------
-_SCRIPTS_DIR = Path(__file__).resolve().parent.parent / "ctf-pwn" / "scripts"
+_SCRIPTS_DIR = Path(__file__).resolve().parent.parent / "skills" / "ctf-pwn" / "scripts"
 _SCRIPT_GENERATORS = {
     "ret2libc_two_stage.py": ["ret2system_payloads", "leak_payload"],
     "srop_execve.py": ["srop_execve_frames", "arb_read_gen", "build_srop_chain"],
