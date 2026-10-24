@@ -20,6 +20,10 @@ Upstream sync from [ljagiello/ctf-skills](https://github.com/ljagiello/ctf-skill
 - README category table and architecture diagram counts refreshed for the categories touched by this sync.
 - CONTRIBUTING.md: documented the `TAVILY_API_KEY` external-service requirement for `ctf-similar-search`, next to the existing PayloadsAllTheThings note.
 
+### Fixed
+
+- `tests/test_pwn_scripts.py`: the real-import test pointed `_SCRIPTS_DIR` at the pre-plugin `ctf-pwn/scripts/` path (missed in the ADR 0001 path translation); now `skills/ctf-pwn/scripts/`. The test still skips when `pwntools` is absent.
+
 ### Not ported
 
 - Upstream's `evals/` (promptfoo/Node eval suite with its own `package-lock.json` and binary fixtures) — different stack from this repo's pytest `tests/`; not adopted.

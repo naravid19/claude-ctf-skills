@@ -1,7 +1,7 @@
 # CTF Skills
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-plugin%20v1.1.0-8A2BE2.svg)](https://docs.anthropic.com/en/docs/claude-code)
+[![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-plugin%20v1.2.0-8A2BE2.svg)](https://docs.anthropic.com/en/docs/claude-code)
 [![Skills](https://img.shields.io/badge/skills-11%20categories-blue.svg)](#what-inside)
 [![Techniques](https://img.shields.io/badge/techniques-113%20documents-orange.svg)](#what-inside)
 [![Scripts](https://img.shields.io/badge/scripts-6%20exploit%20tools-emerald.svg)](#exploit--automation-suite)
