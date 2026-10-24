@@ -681,7 +681,7 @@ def build_html(skills: list[dict]) -> str:
     <header>
       <div class="status-badge">
         <span class="pulse-dot"></span>
-        <span>CLAUDE CODE PLUGIN CATALOG v1.1.0</span>
+        <span>CLAUDE CODE PLUGIN CATALOG v1.2.0</span>
       </div>
       <h1>CTF Skills Catalog</h1>
       <p>Battle-tested Agent Skills, technique documentation, and automated \

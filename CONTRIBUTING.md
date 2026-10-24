@@ -80,6 +80,10 @@ Update the skill's row in `README.md`: increment the **Files** count if you adde
 
 Bulk web payloads live externally in [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings) — on-demand clone, gitignored at `skills/ctf-web/payloads/` and `~/.ctf-tools/PayloadsAllTheThings` (installed via `bash scripts/install_ctf_tools.sh pat`, included in `all`). Don't copy bulk wordlists into technique files. Instead, add a reference to `skills/ctf-web/pat-reference.md` and include at most 2–3 exemplar payloads inline with attribution. The installer and `ctf-web` skill handle lazy cloning when the payloads dir is missing.
 
+### Tavily API — external search service (ctf-similar-search)
+
+`ctf-similar-search` calls the [Tavily](https://tavily.com) search/extract API to find similar CTF writeups. It needs a `TAVILY_API_KEY` env var and the `requests`/`tavily` pip packages (see `skills/ctf-similar-search/SKILL.md` Prerequisites). Never commit a key or hardcode one in the scripts; this is an optional skill that degrades to "unavailable" when the key is unset.
+
 ## Creating a New Skill Category
 
 A new skill category is a directory inside `skills/` containing at minimum a `SKILL.md` file (e.g. `skills/ctf-newcategory/SKILL.md`).
