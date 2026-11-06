@@ -80,7 +80,9 @@ def wiener_attack(n: int, e: int) -> int | None:
     return None
 
 
-def fermat_factorization(n: int, max_iterations: int = 1_000_000) -> Tuple[int, int] | None:
+def fermat_factorization(
+    n: int, max_iterations: int = 1_000_000
+) -> Tuple[int, int] | None:
     """Fermat's factorization method for when p and q are close."""
     a = isqrt(n)
     if a * a < n:
@@ -133,7 +135,9 @@ def nth_root(val: int, n: int) -> int | None:
     return None
 
 
-def hastad_broadcast_attack(ciphertexts: List[int], moduli: List[int], e: int = 3) -> int:
+def hastad_broadcast_attack(
+    ciphertexts: List[int], moduli: List[int], e: int = 3
+) -> int:
     """Hastad's broadcast attack using CRT across e ciphertexts."""
     if len(ciphertexts) < e or len(moduli) < e:
         raise ValueError(f"Need at least {e} pairs for Hastad attack with e={e}")
@@ -151,14 +155,18 @@ def hastad_broadcast_attack(ciphertexts: List[int], moduli: List[int], e: int = 
 
     m = nth_root(m_e, e)
     if m is None:
-        raise RuntimeError("Exact n-th root could not be extracted; ensure padding is identical")
+        raise RuntimeError(
+            "Exact n-th root could not be extracted; ensure padding is identical"
+        )
     return m
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Multi-Vector RSA Attack Suite")
-    parser.add_argument("--test", action="store_true", help="Run comprehensive attack self-tests")
-    args = parser.parse_args()
+    parser.add_argument(
+        "--test", action="store_true", help="Run comprehensive attack self-tests"
+    )
+    _ = parser.parse_args()
 
     print("[*] Running RSA Attack Suite Self-Tests...")
 

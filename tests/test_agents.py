@@ -82,7 +82,9 @@ class TestAgentDefinitions(unittest.TestCase):
                 if "tools" in fm:
                     tools = {t.strip() for t in fm["tools"].split(",")}
                     invalid = tools - VALID_TOOLS
-                    self.assertEqual(invalid, set(), f"Invalid tools in {agent_file.name}: {invalid}")
+                    self.assertEqual(
+                        invalid, set(), f"Invalid tools in {agent_file.name}: {invalid}"
+                    )
 
 
 if __name__ == "__main__":

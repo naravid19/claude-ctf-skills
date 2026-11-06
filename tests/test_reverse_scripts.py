@@ -9,7 +9,9 @@ REVERSE_SCRIPTS_DIR = REPO_ROOT / "skills" / "ctf-reverse" / "scripts"
 
 class TestReverseScriptImports(unittest.TestCase):
     def test_scripts_exist(self):
-        self.assertTrue(REVERSE_SCRIPTS_DIR.is_dir(), "ctf-reverse/scripts directory missing")
+        self.assertTrue(
+            REVERSE_SCRIPTS_DIR.is_dir(), "ctf-reverse/scripts directory missing"
+        )
         self.assertTrue((REVERSE_SCRIPTS_DIR / "unicorn_trace_emu.py").is_file())
 
     def test_unicorn_trace_emu_import(self):

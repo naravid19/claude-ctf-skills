@@ -51,7 +51,10 @@ class MockPaddingOracle:
     def encrypt(self, plaintext: bytes) -> tuple[bytes, bytes]:
         padded = pad(plaintext, self.block_size)
         iv = os.urandom(self.block_size)
-        blocks = [padded[i : i + self.block_size] for i in range(0, len(padded), self.block_size)]
+        blocks = [
+            padded[i : i + self.block_size]
+            for i in range(0, len(padded), self.block_size)
+        ]
         ciphertext = b""
         prev = iv
         for b in blocks:
@@ -62,11 +65,16 @@ class MockPaddingOracle:
         return iv, ciphertext
 
     def is_padding_valid(self, iv_and_ciphertext: bytes) -> bool:
-        if len(iv_and_ciphertext) < self.block_size * 2 or len(iv_and_ciphertext) % self.block_size != 0:
+        if (
+            len(iv_and_ciphertext) < self.block_size * 2
+            or len(iv_and_ciphertext) % self.block_size != 0
+        ):
             return False
         iv = iv_and_ciphertext[: self.block_size]
         ct = iv_and_ciphertext[self.block_size :]
-        blocks = [ct[i : i + self.block_size] for i in range(0, len(ct), self.block_size)]
+        blocks = [
+            ct[i : i + self.block_size] for i in range(0, len(ct), self.block_size)
+        ]
         pt = b""
         prev = iv
         for b in blocks:
@@ -129,7 +137,10 @@ def decrypt_ciphertext(
     block_size: int = 16,
 ) -> bytes:
     """Decrypt arbitrary CBC ciphertext prepended with IV."""
-    if len(iv_and_ciphertext) % block_size != 0 or len(iv_and_ciphertext) < block_size * 2:
+    if (
+        len(iv_and_ciphertext) % block_size != 0
+        or len(iv_and_ciphertext) < block_size * 2
+    ):
         raise ValueError("Ciphertext must include IV and be a multiple of block_size")
 
     blocks = [
@@ -149,7 +160,9 @@ def decrypt_ciphertext(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="CBC Padding Oracle Exploit Suite")
-    parser.add_argument("--test", action="store_true", help="Run self-test against mock oracle")
+    parser.add_argument(
+        "--test", action="store_true", help="Run self-test against mock oracle"
+    )
     args = parser.parse_args()
 
     if args.test or len(sys.argv) == 1:

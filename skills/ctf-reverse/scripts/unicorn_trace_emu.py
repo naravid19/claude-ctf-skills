@@ -15,8 +15,6 @@ try:
     from unicorn import (
         UC_ARCH_X86,
         UC_HOOK_CODE,
-        UC_HOOK_MEM_READ,
-        UC_HOOK_MEM_WRITE,
         UC_MODE_32,
         UC_MODE_64,
         Uc,
@@ -32,6 +30,7 @@ try:
         UC_X86_REG_RIP,
         UC_X86_REG_RSP,
     )
+
     HAS_UNICORN = True
 except ImportError:
     HAS_UNICORN = False
@@ -115,7 +114,7 @@ def run_mock_trace() -> Dict[str, Any]:
         sample_shellcode = (
             b"\x48\xc7\xc0\x37\x13\x00\x00"  # mov rax, 0x1337
             b"\x48\xc7\xc3\x42\x00\x00\x00"  # mov rbx, 0x42
-            b"\x48\x01\xd8"                  # add rax, rbx
+            b"\x48\x01\xd8"  # add rax, rbx
         )
         res = emulate_x86_shellcode(sample_shellcode, arch="x86_64")
         return {"success": True, "unicorn": True, "res": res}

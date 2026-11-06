@@ -9,7 +9,9 @@ CRYPTO_SCRIPTS_DIR = REPO_ROOT / "skills" / "ctf-crypto" / "scripts"
 
 class TestCryptoScriptImports(unittest.TestCase):
     def test_scripts_exist(self):
-        self.assertTrue(CRYPTO_SCRIPTS_DIR.is_dir(), "ctf-crypto/scripts directory missing")
+        self.assertTrue(
+            CRYPTO_SCRIPTS_DIR.is_dir(), "ctf-crypto/scripts directory missing"
+        )
         self.assertTrue((CRYPTO_SCRIPTS_DIR / "padding_oracle_suite.py").is_file())
         self.assertTrue((CRYPTO_SCRIPTS_DIR / "rsa_attack_suite.py").is_file())
 
@@ -30,7 +32,9 @@ class TestCryptoScriptImports(unittest.TestCase):
         oracle = mod.MockPaddingOracle(key=b"16byteSecretKey!", block_size=16)
         plaintext = b"CTF{padding_oracle_success_flag}"
         iv, ct = oracle.encrypt(plaintext)
-        decrypted = mod.decrypt_ciphertext(oracle.is_padding_valid, iv + ct, block_size=16)
+        decrypted = mod.decrypt_ciphertext(
+            oracle.is_padding_valid, iv + ct, block_size=16
+        )
         self.assertEqual(decrypted, plaintext)
 
     def test_rsa_attack_suite(self):

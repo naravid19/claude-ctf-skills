@@ -263,10 +263,6 @@ def build_html(skills: list[dict]) -> str:
             f'<button class="filter-pill" data-filter="{p_name}">{p_name}</button>'
         )
 
-    meta_desc = (
-        "Agent Skills & autonomous solver for CTF competitions: "
-        "Web, Pwn, Crypto, Reverse, Forensics, OSINT, AI/ML, Malware, and Misc."
-    )
     search_placeholder = "Search techniques, vulnerabilities, or scripts..."
 
     return f"""<!DOCTYPE html>
