@@ -43,6 +43,25 @@ class CatalogLinkTests(unittest.TestCase):
         missing = [p for p in paths if not (REPO_ROOT / p).is_file()]
         self.assertEqual(missing, [], f"catalog links to missing files: {missing}")
 
+    def test_json_ld_and_author_meta_present(self):
+        gen = _load_generator()
+        skills = []
+        for skill_dir in gen.discover_skills():
+            text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
+            skills.append(
+                {
+                    "dir_name": skill_dir.name,
+                    "rel_path": skill_dir.relative_to(REPO_ROOT).as_posix(),
+                    "description": gen.parse_frontmatter(text).get("description", ""),
+                    "techniques": gen.count_techniques(skill_dir),
+                }
+            )
+        html = gen.build_html(skills)
+        self.assertIn("application/ld+json", html)
+        self.assertIn('"@type": "SoftwareSourceCode"', html)
+        self.assertIn("Lukasz Jagiello", html)
+        self.assertIn('<meta name="author" content="Lukasz Jagiello">', html)
+
 
 if __name__ == "__main__":
     unittest.main()

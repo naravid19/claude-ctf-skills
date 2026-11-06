@@ -5,6 +5,7 @@ license: MIT
 compatibility: Requires filesystem-based agent (Claude Code or similar) with bash, Python 3, and internet access for tool installation.
 allowed-tools: Bash Read Write Edit Glob Grep Task WebFetch WebSearch Skill
 metadata:
+  author: Lukasz Jagiello
   user-invocable: "false"
 ---
 

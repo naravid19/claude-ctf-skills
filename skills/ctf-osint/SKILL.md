@@ -5,6 +5,7 @@ license: MIT
 compatibility: Requires filesystem-based agent (Claude Code or similar) with bash, Python 3, and internet access for OSINT lookups.
 allowed-tools: Bash Read Write Edit Glob Grep Task WebFetch WebSearch
 metadata:
+  author: Lukasz Jagiello
   user-invocable: "false"
 ---
 

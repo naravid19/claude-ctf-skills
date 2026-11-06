@@ -5,6 +5,7 @@ license: MIT
 compatibility: Requires filesystem-based agent (Claude Code or similar) with bash, Python 3, and internet access. Orchestrates other ctf-* skills.
 allowed-tools: Bash Read Write Edit Glob Grep Task WebFetch WebSearch Skill
 metadata:
+  author: Lukasz Jagiello
   user-invocable: "true"
   argument-hint: "[category] [challenge-file-or-url]"
 ---

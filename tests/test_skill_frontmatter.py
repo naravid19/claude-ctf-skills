@@ -197,3 +197,16 @@ class TestSkillFrontmatter(unittest.TestCase):
                     20,
                     f"{skill_dir.name} description too short ({len(desc)} chars)",
                 )
+
+    def test_metadata_author(self):
+        for skill_dir in self.skills:
+            text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
+            fm = _parse_frontmatter(text)
+            if fm is None:
+                continue
+            with self.subTest(skill=skill_dir.name):
+                self.assertEqual(
+                    fm.get("metadata.author"),
+                    "Lukasz Jagiello",
+                    f"{skill_dir.name} metadata.author is '{fm.get('metadata.author')}', expected 'Lukasz Jagiello'",
+                )

@@ -6,6 +6,7 @@ category filtering, and showcases both technique docs and exploit scripts.
 """
 
 import html
+import json
 import subprocess
 from pathlib import Path
 
@@ -13,6 +14,35 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = REPO_ROOT / "_site"
 
 _DEFAULT_REPO_URL = "https://github.com/naravid19/claude-ctf-skills"
+
+SITE_URL = "https://naravid19.github.io/claude-ctf-skills/"
+SITE_DESCRIPTION = (
+    "Agent skills for solving CTF challenges - web exploitation, binary pwn,"
+    " crypto, reverse engineering, forensics, OSINT, and more"
+)
+AUTHOR_NAME = "Lukasz Jagiello"
+AUTHOR_URL = "https://lukasz.jagiello.org"
+
+
+def build_json_ld() -> str:
+    """Build schema.org JSON-LD describing the repository and its author."""
+    data = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareSourceCode",
+        "name": "claude-ctf-skills",
+        "description": SITE_DESCRIPTION,
+        "codeRepository": _get_repo_url(),
+        "url": SITE_URL,
+        "license": "https://spdx.org/licenses/MIT.html",
+        "author": {
+            "@type": "Person",
+            "@id": f"{AUTHOR_URL}/#person",
+            "name": AUTHOR_NAME,
+            "url": AUTHOR_URL,
+        },
+    }
+    # Escape "</" so a value can never close the <script> element early.
+    return json.dumps(data, ensure_ascii=False).replace("</", r"<\/")
 
 
 def _detect_repo_url() -> str:
@@ -245,7 +275,9 @@ def build_html(skills: list[dict]) -> str:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CTF Skills Catalog — Claude Code Plugin</title>
-  <meta name="description" content="{meta_desc}">
+  <meta name="description" content="{html.escape(SITE_DESCRIPTION)}">
+  <meta name="author" content="{html.escape(AUTHOR_NAME)}">
+  <script type="application/ld+json">{build_json_ld()}</script>
   <style>
     :root {{
       --bg: #09090b;
@@ -744,6 +776,9 @@ GitHub Repository</a>
         &middot;
         <a href="https://github.com/ljagiello/ctf-skills" target="_blank" \
 rel="noopener noreferrer">Upstream Base (ljagiello)</a>
+        &middot;
+        Made by <a href="https://lukasz.jagiello.org" target="_blank" \
+rel="author noopener noreferrer">Lukasz Jagiello</a>
         &middot;
         <a href="https://agentskills.io" target="_blank" \
 rel="noopener noreferrer">Agent Skills Spec</a>
