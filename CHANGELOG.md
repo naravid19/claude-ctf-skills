@@ -2,6 +2,46 @@
 
 All notable changes to this project are documented here. This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.3.0 — 2026-11-07
+
+Upstream metadata synchronization through commit `aabc3ef`, multi-subagent specialist architecture expansion, and exploit automation suite expansion with cryptography and reverse engineering generator suites.
+
+### Added
+
+- **Multi-Subagent Specialist Architecture** (`agents/`):
+  - Refactored `agents/ctf-solver.md` as the primary CTF Team Leader & Triage Orchestrator (`mode: primary`).
+  - Added 8 dedicated specialist subagents under `agents/`:
+    - `ctf-pwn.md` (binary exploitation, ROP, heap, format strings)
+    - `ctf-web.md` (web security, auth bypass, injection, fuzzing)
+    - `ctf-crypto.md` (mathematical cryptanalysis, RSA, ECC, lattices)
+    - `ctf-reverse.md` (decompilation, emulation, MBA simplification)
+    - `ctf-forensics.md` (PCAP, memory analysis, disk images, stego)
+    - `ctf-malware.md` (script deobfuscation, shellcode, YARA rules)
+    - `ctf-misc.md` (pyjail/bashjail sandbox escapes, esoteric ciphers)
+    - `ctf-osint.md` (geolocation, identity correlation, DNS recon)
+  - Added `tests/test_agents.py` validating agent definitions, frontmatter schema, and tool allowances.
+- **Exploit Automation Suite Expansion**:
+  - `skills/ctf-crypto/scripts/padding_oracle_suite.py`: Automated CBC PKCS#7 byte-by-byte decryption and block forgery with built-in mock oracle self-test.
+  - `skills/ctf-crypto/scripts/rsa_attack_suite.py`: Multi-vector RSA attack suite covering Wiener's continued fractions attack, Fermat's close-prime factorization, Common Modulus attack, and Hastad's broadcast attack via CRT and integer root.
+  - `skills/ctf-reverse/scripts/unicorn_trace_emu.py`: CPU emulation tracer for x86/x64 shellcode using Unicorn Engine, tracking instructions, registers, and memory without host execution.
+  - Added test suites: `tests/test_crypto_scripts.py` and `tests/test_reverse_scripts.py`.
+- **Upstream Metadata Alignment**:
+  - Added `author: Lukasz Jagiello` across all 12 category skills (`skills/*/SKILL.md`).
+  - Added `CITATION.cff` for academic and software attribution.
+  - Added Schema.org `SoftwareSourceCode` JSON-LD and author meta tags in `scripts/generate_catalog.py`.
+
+### Changed
+
+- Updated `.github/workflows/markdown-lint.yml` to `DavidAnson/markdownlint-cli2-action@v25`.
+- Updated `scripts/generate_catalog.py` with SEO metadata, author footer attribution, and automatic discovery of 10 exploit scripts.
+- Updated `README.md`: bumped version badge to 1.3.0, documented 9 subagents and 10 exploit scripts, added upstream write-up and sponsors links.
+- Bumped plugin and marketplace manifests (`.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`) to `1.3.0`.
+
+### Verification
+
+- `python -m pytest` passes 100% (111 passed, 9 skipped across 120 tests).
+- Catalog generation (`scripts/generate_catalog.py`) verified with 12 skills, 124 techniques, and 10 exploit scripts.
+
 ## 1.2.0 — 2026-10-24
 
 Upstream sync from [ljagiello/ctf-skills](https://github.com/ljagiello/ctf-skills) (`c332c7b` through `2b396aa`, 13 commits), translating `<skill>/` paths to `skills/<skill>/` per ADR 0001.
