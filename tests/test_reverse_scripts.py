@@ -25,6 +25,8 @@ class TestReverseScriptImports(unittest.TestCase):
 
         self.assertTrue(hasattr(mod, "emulate_x86_shellcode"))
         self.assertTrue(hasattr(mod, "run_mock_trace"))
+        self.assertTrue(hasattr(mod, "ARCH_CONFIG"))
+        self.assertTrue(hasattr(mod, "HAS_UNICORN"))
 
         res = mod.run_mock_trace()
         self.assertTrue(res.get("success", False))

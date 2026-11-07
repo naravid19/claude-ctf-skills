@@ -114,6 +114,7 @@ Frontmatter rules enforced by tests:
 | `allowed-tools` | Space-separated list; valid values: `Bash`, `Read`, `Write`, `Edit`, `Glob`, `Grep`, `Task`, `WebFetch`, `WebSearch`, `Skill` |
 | `metadata.user-invocable` | Must be `"true"` or `"false"` |
 | `metadata.argument-hint` | Required if `user-invocable` is `"true"` |
+| `metadata.author` | Author attribution for skill metadata (e.g., `Lukasz Jagiello`) |
 
 ## Running Tests Locally
 

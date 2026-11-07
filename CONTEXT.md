@@ -11,7 +11,13 @@ A packaged bundle of agent skills, configuration, and subagents conforming to th
 Synonym for Plugin Layout. See above.
 
 ### CTF Solver Subagent
-An autonomous subagent definition (`agents/ctf-solver.md`) invoked within Claude Code to orchestrate challenge analysis, vulnerability scanning, and flag extraction across CTF categories.
+An autonomous primary subagent definition (`agents/ctf-solver.md`, `mode: primary`) invoked within Claude Code to act as team leader, orchestrating challenge analysis, triage, and delegation to specialist subagents.
+
+### Specialist Subagents
+Domain-focused subagents defined under `agents/` (`ctf-pwn`, `ctf-web`, `ctf-crypto`, `ctf-reverse`, `ctf-forensics`, `ctf-malware`, `ctf-misc`, `ctf-osint`) providing deep expertise, scoped tooling, and direct integration with corresponding category skills.
+
+### Multi-Subagent Hierarchy
+The cooperative architecture where `ctf-solver` conducts initial triage and delegates category-specific deep work to one or more specialist subagents without polluting the parent conversation context.
 
 ### Skill-Scoped Scripts
 Self-contained helper, exploit, or fuzzing scripts stored directly within an individual skill's folder (`skills/<category>/scripts/`), allowing the skill to function as an independent portable toolkit.
@@ -26,7 +32,7 @@ The process of synchronizing updated CTF attack techniques, reference guides, an
 The static website generator script (`scripts/generate_catalog.py`) that compiles skill frontmatter, technique docs, and exploit scripts into an interactive, zero-dependency search dashboard deployed to GitHub Pages (`_site/`).
 
 ### Exploit Automation Suite
-The collection of verified, ready-to-run Python exploitation templates (e.g. format strings, two-stage ret2libc, SROP, seccomp ORW, and async HTTP fuzzers) colocated in skill `scripts/` directories.
+The collection of verified, ready-to-run Python exploitation templates (e.g. format strings, two-stage ret2libc, SROP, seccomp ORW, async HTTP fuzzers, CBC padding oracle, and multi-vector RSA solvers) colocated in skill `scripts/` directories.
 
 ### Triage Roles
 The five canonical roles used to classify incoming tasks, issues, and pull requests:

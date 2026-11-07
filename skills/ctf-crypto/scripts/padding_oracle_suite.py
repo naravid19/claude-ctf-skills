@@ -2,7 +2,8 @@
 """Automated CBC Padding Oracle Attack Suite for CTF Cryptography.
 
 Implements byte-by-byte plaintext decryption and arbitrary ciphertext forgery
-under CBC mode when an oracle reveals padding validity (HTTP 200 vs 500, boolean oracle, etc.).
+under CBC mode when an oracle reveals padding validity
+(HTTP 200 vs 500, boolean oracle, etc.).
 """
 
 from __future__ import annotations
@@ -88,15 +89,15 @@ class MockPaddingOracle:
             return False
 
 
-def decrypt_block(
+def get_intermediate_block(
     oracle_fn: Callable[[bytes], bool],
-    prev_block: bytes,
     target_block: bytes,
     block_size: int = 16,
 ) -> bytes:
-    """Recover the plaintext of target_block using a 2-block padding oracle test."""
+    """Recover intermediate decryption state D_k(target_block)
+    using a padding oracle.
+    """
     intermediate = bytearray(block_size)
-    discovered_plaintext = bytearray(block_size)
 
     for byte_idx in reversed(range(block_size)):
         target_pad_val = block_size - byte_idx
@@ -121,14 +122,44 @@ def decrypt_block(
 
                 inter_val = candidate ^ target_pad_val
                 intermediate[byte_idx] = inter_val
-                discovered_plaintext[byte_idx] = inter_val ^ prev_block[byte_idx]
                 found = True
                 break
 
         if not found:
             raise RuntimeError(f"Oracle failed to find valid byte at index {byte_idx}")
 
-    return bytes(discovered_plaintext)
+    return bytes(intermediate)
+
+
+def decrypt_block(
+    oracle_fn: Callable[[bytes], bool],
+    prev_block: bytes,
+    target_block: bytes,
+    block_size: int = 16,
+) -> bytes:
+    """Recover the plaintext of target_block using a 2-block padding oracle test."""
+    intermediate = get_intermediate_block(oracle_fn, target_block, block_size)
+    return bytes(i ^ p for i, p in zip(intermediate, prev_block))
+
+
+def forge_ciphertext(
+    oracle_fn: Callable[[bytes], bool],
+    desired_plaintext: bytes,
+    block_size: int = 16,
+) -> bytes:
+    """Forge arbitrary CBC ciphertext (including IV) that decrypts
+    to desired_plaintext.
+    """
+    padded = pad(desired_plaintext, block_size)
+    pt_blocks = [padded[i : i + block_size] for i in range(0, len(padded), block_size)]
+
+    cipher_blocks = [os.urandom(block_size)]
+    for pt in reversed(pt_blocks):
+        inter = get_intermediate_block(oracle_fn, cipher_blocks[0], block_size)
+        prev_ct = bytes(i ^ p for i, p in zip(inter, pt))
+        cipher_blocks.insert(0, prev_ct)
+
+    return b"".join(cipher_blocks)
 
 
 def decrypt_ciphertext(
@@ -174,6 +205,15 @@ def main() -> None:
         recovered = decrypt_ciphertext(mock.is_padding_valid, iv + ct, block_size=16)
         print(f"[+] Recovered: {recovered.decode('utf-8', errors='replace')}")
         assert recovered == secret_msg, "Decrypted message mismatch"
+
+        # Test ciphertext forgery
+        target_msg = b"admin=true;role=root"
+        forged = forge_ciphertext(mock.is_padding_valid, target_msg, block_size=16)
+        decrypted_forged = decrypt_ciphertext(
+            mock.is_padding_valid, forged, block_size=16
+        )
+        assert decrypted_forged == target_msg, "Forged message mismatch"
+        print(f"[+] Ciphertext Forgery verified for '{target_msg.decode()}'")
         print("[+] Self-test passed successfully!")
 
 

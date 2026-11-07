@@ -4,7 +4,7 @@ All notable changes to this project are documented here. This project adheres to
 
 ## 1.3.0 — 2026-11-07
 
-Upstream metadata synchronization through commit `aabc3ef`, multi-subagent specialist architecture expansion, and exploit automation suite expansion with cryptography and reverse engineering generator suites.
+Upstream metadata synchronization through commit `2ad85d3`, multi-subagent specialist architecture expansion, and exploit automation suite expansion with cryptography and reverse engineering generator suites.
 
 ### Added
 
@@ -19,16 +19,17 @@ Upstream metadata synchronization through commit `aabc3ef`, multi-subagent speci
     - `ctf-malware.md` (script deobfuscation, shellcode, YARA rules)
     - `ctf-misc.md` (pyjail/bashjail sandbox escapes, esoteric ciphers)
     - `ctf-osint.md` (geolocation, identity correlation, DNS recon)
+  - Documented architectural decisions in `docs/adr/0003-multi-subagent-specialist-architecture.md`.
   - Added `tests/test_agents.py` validating agent definitions, frontmatter schema, and tool allowances.
 - **Exploit Automation Suite Expansion**:
-  - `skills/ctf-crypto/scripts/padding_oracle_suite.py`: Automated CBC PKCS#7 byte-by-byte decryption and block forgery with built-in mock oracle self-test.
-  - `skills/ctf-crypto/scripts/rsa_attack_suite.py`: Multi-vector RSA attack suite covering Wiener's continued fractions attack, Fermat's close-prime factorization, Common Modulus attack, and Hastad's broadcast attack via CRT and integer root.
-  - `skills/ctf-reverse/scripts/unicorn_trace_emu.py`: CPU emulation tracer for x86/x64 shellcode using Unicorn Engine, tracking instructions, registers, and memory without host execution.
+  - `skills/ctf-crypto/scripts/padding_oracle_suite.py`: Automated CBC PKCS#7 byte-by-byte decryption (`decrypt_ciphertext`) and arbitrary block forgery (`forge_ciphertext`) with intermediate state recovery (`get_intermediate_block`) and mock oracle self-test.
+  - `skills/ctf-crypto/scripts/rsa_attack_suite.py`: Multi-vector RSA attack suite covering Wiener's continued fractions attack, Fermat's close-prime factorization, Common Factor attack via pairwise GCD, Common Modulus attack, and Hastad's broadcast attack via CRT and integer root.
+  - `skills/ctf-reverse/scripts/unicorn_trace_emu.py`: CPU emulation tracer for x86 (32-bit) and x86_64 (64-bit) shellcode using Unicorn Engine, tracking instructions, registers (`eax`/`rax`, `esp`/`rsp`, `eip`/`rip`), and memory without host execution.
   - Added test suites: `tests/test_crypto_scripts.py` and `tests/test_reverse_scripts.py`.
 - **Upstream Metadata Alignment**:
   - Added `author: Lukasz Jagiello` across all 12 category skills (`skills/*/SKILL.md`).
   - Added `CITATION.cff` for academic and software attribution.
-  - Added Schema.org `SoftwareSourceCode` JSON-LD and author meta tags in `scripts/generate_catalog.py`.
+  - Added Schema.org `SoftwareSourceCode` JSON-LD, upstream write-up link, and author meta tags in `scripts/generate_catalog.py`.
 
 ### Changed
 
@@ -36,6 +37,12 @@ Upstream metadata synchronization through commit `aabc3ef`, multi-subagent speci
 - Updated `scripts/generate_catalog.py` with SEO metadata, author footer attribution, and automatic discovery of 10 exploit scripts.
 - Updated `README.md`: bumped version badge to 1.3.0, documented 9 subagents and 10 exploit scripts, added upstream write-up and sponsors links.
 - Bumped plugin and marketplace manifests (`.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`) to `1.3.0`.
+
+### Not ported
+
+Per [ADR 0002](docs/adr/0002-upstream-sync-scope-exclusions.md), the following upstream directories and configurations are excluded from `claude-ctf-skills`:
+- `evals/`: Node.js / promptfoo benchmark harness and challenge dataset (this plugin is a pure, zero-dependency Claude Code agent skills repository).
+- `.opencode/`: OpenCode agent tool definitions and metadata (translated into native Claude Code subagent definitions in `agents/` per [ADR 0003](docs/adr/0003-multi-subagent-specialist-architecture.md)).
 
 ### Verification
 

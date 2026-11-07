@@ -776,6 +776,9 @@ rel="noopener noreferrer">Upstream Base (ljagiello)</a>
         Made by <a href="https://lukasz.jagiello.org" target="_blank" \
 rel="author noopener noreferrer">Lukasz Jagiello</a>
         &middot;
+        <a href="https://lukasz.jagiello.org/projects/ctf-skills" target="_blank" \
+rel="noopener noreferrer">Project write-up</a>
+        &middot;
         <a href="https://agentskills.io" target="_blank" \
 rel="noopener noreferrer">Agent Skills Spec</a>
         &middot;

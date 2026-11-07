@@ -6,6 +6,7 @@ Provides automated factorization and message recovery for:
 2. Fermat's factorization for close primes (|p - q| is small)
 3. Common modulus attack (same modulus n, coprime e1, e2)
 4. Hastad's broadcast attack (small e with CRT)
+5. Common factor attack (shared prime factors across moduli via pairwise GCD)
 """
 
 from __future__ import annotations
@@ -13,11 +14,6 @@ from __future__ import annotations
 import argparse
 import math
 from typing import List, Tuple
-
-
-def isqrt(n: int) -> int:
-    """Integer square root."""
-    return math.isqrt(n)
 
 
 def extended_gcd(a: int, b: int) -> Tuple[int, int, int]:
@@ -62,16 +58,14 @@ def wiener_attack(n: int, e: int) -> int | None:
     for k, d in convs:
         if k == 0 or d == 0:
             continue
-        # e*d - 1 must be divisible by k
         if (e * d - 1) % k != 0:
             continue
         phi = (e * d - 1) // k
-        # Roots of x^2 - (n - phi + 1)x + n = 0 must be integers
         s = n - phi + 1
         discr = s * s - 4 * n
         if discr < 0:
             continue
-        r = isqrt(discr)
+        r = math.isqrt(discr)
         if r * r == discr and (s + r) % 2 == 0:
             p = (s + r) // 2
             q = (s - r) // 2
@@ -84,12 +78,12 @@ def fermat_factorization(
     n: int, max_iterations: int = 1_000_000
 ) -> Tuple[int, int] | None:
     """Fermat's factorization method for when p and q are close."""
-    a = isqrt(n)
+    a = math.isqrt(n)
     if a * a < n:
         a += 1
     b2 = a * a - n
     for _ in range(max_iterations):
-        b = isqrt(b2)
+        b = math.isqrt(b2)
         if b * b == b2:
             return a + b, a - b
         a += 1
@@ -97,13 +91,31 @@ def fermat_factorization(
     return None
 
 
+def common_factor_attack(moduli: List[int]) -> List[Tuple[int, int, int]]:
+    """Factor RSA moduli that share common prime factors via pairwise GCD.
+
+    Returns a list of tuples: (index, p, q) where moduli[index] == p * q.
+    """
+    results = []
+    n_count = len(moduli)
+    for i in range(n_count):
+        for j in range(i + 1, n_count):
+            g = math.gcd(moduli[i], moduli[j])
+            if 1 < g < moduli[i]:
+                results.append((i, g, moduli[i] // g))
+            if 1 < g < moduli[j]:
+                results.append((j, g, moduli[j] // g))
+    return sorted(list(set(results)), key=lambda x: x[0])
+
+
 def common_modulus_attack(c1: int, c2: int, e1: int, e2: int, n: int) -> int:
-    """Recover plaintext when the same message is encrypted under identical n with coprime e1, e2."""
+    """Recover plaintext when the same message is encrypted under identical n
+    with coprime e1, e2.
+    """
     g, s1, s2 = extended_gcd(e1, e2)
     if g != 1:
         raise ValueError(f"e1 and e2 are not coprime (gcd={g})")
 
-    # If s1 or s2 is negative, calculate modular inverse
     if s1 < 0:
         c1 = pow(c1, -1, n)
         s1 = -s1
@@ -142,7 +154,6 @@ def hastad_broadcast_attack(
     if len(ciphertexts) < e or len(moduli) < e:
         raise ValueError(f"Need at least {e} pairs for Hastad attack with e={e}")
 
-    # Solve system with Chinese Remainder Theorem
     total_prod = 1
     for m in moduli[:e]:
         total_prod *= m
@@ -170,15 +181,35 @@ def main() -> None:
 
     print("[*] Running RSA Attack Suite Self-Tests...")
 
-    # 1. Fermat Test
-    p = 1000000007
-    q = 1000000009
-    n = p * q
-    factors = fermat_factorization(n)
-    assert factors is not None and factors[0] * factors[1] == n, "Fermat test failed"
-    print(f"[+] Fermat Factorization verified for {n}")
+    # 1. Wiener Test
+    p_w = 1000000007
+    q_w = 1000000009
+    n_w = p_w * q_w
+    phi_w = (p_w - 1) * (q_w - 1)
+    d_w = 1009
+    e_w = pow(d_w, -1, phi_w)
+    rec_d = wiener_attack(n_w, e_w)
+    assert rec_d == d_w, f"Wiener attack failed: expected {d_w}, got {rec_d}"
+    print(f"[+] Wiener Attack verified for small d={d_w}")
 
-    # 2. Common Modulus Test
+    # 2. Fermat Test
+    p_f = 1000000007
+    q_f = 1000000009
+    n_f = p_f * q_f
+    factors = fermat_factorization(n_f)
+    assert factors is not None and factors[0] * factors[1] == n_f, "Fermat test failed"
+    print(f"[+] Fermat Factorization verified for {n_f}")
+
+    # 3. Common Factor Test
+    p_cf = 1000000007
+    q1_cf = 1000000009
+    q2_cf = 1000000021
+    mods = [p_cf * q1_cf, p_cf * q2_cf]
+    cf_res = common_factor_attack(mods)
+    assert len(cf_res) == 2 and cf_res[0][1] == p_cf, "Common factor attack failed"
+    print(f"[+] Common Factor Attack verified across {len(mods)} moduli")
+
+    # 4. Common Modulus Test
     msg = 13374242
     n_cm = 104729 * 1299709
     e1, e2 = 17, 19
@@ -188,12 +219,12 @@ def main() -> None:
     assert rec_msg == msg, "Common modulus recovery failed"
     print(f"[+] Common Modulus Attack verified (recovered {rec_msg})")
 
-    # 3. Hastad Broadcast Test
+    # 5. Hastad Broadcast Test
     e_h = 3
     msg_h = 999888777
-    mods = [1000000007, 1000000009, 1000000021]
-    cts = [pow(msg_h, e_h, m) for m in mods]
-    rec_h = hastad_broadcast_attack(cts, mods, e=e_h)
+    h_mods = [1000000007, 1000000009, 1000000021]
+    cts = [pow(msg_h, e_h, m) for m in h_mods]
+    rec_h = hastad_broadcast_attack(cts, h_mods, e=e_h)
     assert rec_h == msg_h, "Hastad broadcast recovery failed"
     print(f"[+] Hastad Broadcast Attack verified (recovered {rec_h})")
 
