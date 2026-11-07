@@ -2,7 +2,7 @@
 """Multi-Vector RSA Attack Suite for CTF Cryptography.
 
 Provides automated factorization and message recovery for:
-1. Wiener's small private exponent attack (continued fractions)
+1. Wiener's Attack (small private exponent d < 1/3 * N^(1/4)) via continued fractions
 2. Fermat's factorization for close primes (|p - q| is small)
 3. Common modulus attack (same modulus n, coprime e1, e2)
 4. Hastad's broadcast attack (small e with CRT)
@@ -20,41 +20,42 @@ def extended_gcd(a: int, b: int) -> Tuple[int, int, int]:
     """Extended Euclidean Algorithm: returns (g, x, y) such that a*x + b*y = g."""
     if a == 0:
         return b, 0, 1
-    g, x1, y1 = extended_gcd(b % a, a)
-    x = y1 - (b // a) * x1
-    y = x1
-    return g, x, y
+    x0, x1, y0, y1 = 1, 0, 0, 1
+    while b != 0:
+        q, a, b = a // b, b, a % b
+        x0, x1 = x1, x0 - q * x1
+        y0, y1 = y1, y0 - q * y1
+    return a, x0, y0
 
 
-def continued_fractions(num: int, den: int) -> List[int]:
-    """Calculate the continued fraction expansion of num/den."""
-    cf = []
+def continued_fraction(num: int, den: int) -> List[int]:
+    """Expand rational num/den into continued fraction coefficients."""
+    coeffs = []
     while den != 0:
         q = num // den
-        cf.append(q)
+        coeffs.append(q)
         num, den = den, num - q * den
-    return cf
+    return coeffs
 
 
 def convergents(cf: List[int]) -> List[Tuple[int, int]]:
-    """Compute convergents (k/d) from continued fraction terms."""
-    n_0, n_1 = 0, 1
-    d_0, d_1 = 1, 0
+    """Compute convergents (k, d) from continued fraction expansion."""
     convs = []
+    h_prev2, h_prev1 = 0, 1
+    k_prev2, k_prev1 = 1, 0
     for q in cf:
-        n_2 = q * n_1 + n_0
-        d_2 = q * d_1 + d_0
-        convs.append((n_2, d_2))
-        n_0, n_1 = n_1, n_2
-        d_0, d_1 = d_1, d_2
+        h = q * h_prev1 + h_prev2
+        k = q * k_prev1 + k_prev2
+        convs.append((h, k))
+        h_prev2, h_prev1 = h_prev1, h
+        k_prev2, k_prev1 = k_prev1, k
     return convs
 
 
 def wiener_attack(n: int, e: int) -> int | None:
-    """Wiener's attack for small private key d < (1/3) * n^(1/4)."""
-    cf = continued_fractions(e, n)
+    """Recover small private exponent d using Wiener's continued fractions attack."""
+    cf = continued_fraction(e, n)
     convs = convergents(cf)
-
     for k, d in convs:
         if k == 0 or d == 0:
             continue
@@ -123,34 +124,37 @@ def common_modulus_attack(c1: int, c2: int, e1: int, e2: int, n: int) -> int:
         c2 = pow(c2, -1, n)
         s2 = -s2
 
-    m = (pow(c1, s1, n) * pow(c2, s2, n)) % n
-    return m
+    m1 = pow(c1, s1, n)
+    m2 = pow(c2, s2, n)
+    return (m1 * m2) % n
 
 
-def nth_root(val: int, n: int) -> int | None:
-    """Exact integer n-th root via binary search."""
-    if val < 0:
-        raise ValueError("Cannot compute root of negative integer")
-    if val == 0:
-        return 0
-    low = 1
-    high = val
-    while low <= high:
+def integer_nth_root(x: int, n: int) -> Tuple[int, bool]:
+    """Compute floor(x^(1/n)) and whether x is a perfect nth power."""
+    if x < 0:
+        raise ValueError("Cannot extract root of negative integer")
+    if x == 0:
+        return 0, True
+    high = 1 << ((x.bit_length() + n - 1) // n)
+    low = 1 << ((x.bit_length() - 1) // n)
+    while low < high:
         mid = (low + high) // 2
         p = mid**n
-        if p == val:
-            return mid
-        elif p < val:
+        if p < x:
             low = mid + 1
+        elif p > x:
+            high = mid
         else:
-            high = mid - 1
-    return None
+            return mid, True
+    return low - 1, (low - 1) ** n == x
 
 
 def hastad_broadcast_attack(
     ciphertexts: List[int], moduli: List[int], e: int = 3
-) -> int:
-    """Hastad's broadcast attack using CRT across e ciphertexts."""
+) -> int | None:
+    """Recover message m when m^e is broadcast across e coprime moduli
+    without padding.
+    """
     if len(ciphertexts) < e or len(moduli) < e:
         raise ValueError(f"Need at least {e} pairs for Hastad attack with e={e}")
 
@@ -158,27 +162,17 @@ def hastad_broadcast_attack(
     for m in moduli[:e]:
         total_prod *= m
 
-    m_e = 0
+    result = 0
     for c_i, n_i in zip(ciphertexts[:e], moduli[:e]):
         m_i = total_prod // n_i
         _, inv, _ = extended_gcd(m_i, n_i)
-        m_e = (m_e + c_i * m_i * inv) % total_prod
+        result = (result + c_i * m_i * (inv % n_i)) % total_prod
 
-    m = nth_root(m_e, e)
-    if m is None:
-        raise RuntimeError(
-            "Exact n-th root could not be extracted; ensure padding is identical"
-        )
-    return m
+    root, exact = integer_nth_root(result, e)
+    return root if exact else None
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Multi-Vector RSA Attack Suite")
-    parser.add_argument(
-        "--test", action="store_true", help="Run comprehensive attack self-tests"
-    )
-    _ = parser.parse_args()
-
+def run_self_tests() -> None:
     print("[*] Running RSA Attack Suite Self-Tests...")
 
     # 1. Wiener Test
@@ -228,7 +222,35 @@ def main() -> None:
     assert rec_h == msg_h, "Hastad broadcast recovery failed"
     print(f"[+] Hastad Broadcast Attack verified (recovered {rec_h})")
 
-    print("[+] All RSA attack vectors verified successfully!")
+    print("[+] All RSA Attack Suite self-tests passed!")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Multi-Vector RSA Attack Suite")
+    parser.add_argument(
+        "--test", action="store_true", help="Run comprehensive attack self-tests"
+    )
+    parser.add_argument(
+        "--attack",
+        choices=["wiener", "fermat"],
+        help="Run a specific single-modulus attack from CLI",
+    )
+    parser.add_argument("--n", type=int, help="RSA modulus n")
+    parser.add_argument("--e", type=int, help="RSA public exponent e")
+    args = parser.parse_args()
+
+    if args.attack == "wiener":
+        if args.n is None or args.e is None:
+            parser.error("--attack wiener requires --n and --e")
+        d = wiener_attack(args.n, args.e)
+        print(f"[+] Wiener result d = {d}")
+    elif args.attack == "fermat":
+        if args.n is None:
+            parser.error("--attack fermat requires --n")
+        factors = fermat_factorization(args.n)
+        print(f"[+] Fermat factors = {factors}")
+    else:
+        run_self_tests()
 
 
 if __name__ == "__main__":

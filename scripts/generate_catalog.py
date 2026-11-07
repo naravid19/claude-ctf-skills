@@ -84,6 +84,7 @@ CATEGORY_COLORS = {
     "ctf-malware": "#ef4444",  # Crimson
     "ctf-misc": "#6366f1",  # Indigo
     "ctf-ai-ml": "#ec4899",  # Rose Pink
+    "ctf-similar-search": "#f59e0b",  # Gold Amber
     "ctf-writeup": "#94a3b8",  # Slate
     "solve-challenge": "#14b8a6",  # Teal
 }
@@ -98,6 +99,7 @@ CATEGORY_ICONS = {
     "ctf-malware": "🦠",
     "ctf-misc": "🧩",
     "ctf-ai-ml": "🤖",
+    "ctf-similar-search": "🔎",
     "ctf-writeup": "📝",
     "solve-challenge": "🎯",
 }
@@ -853,22 +855,26 @@ rel="noopener noreferrer">Agent Skills Spec</a>
 </html>"""
 
 
-def main() -> None:
+def collect_skills() -> list[dict]:
+    """Collect metadata, techniques, and scripts for all discovered skills."""
     skills = []
     for skill_dir in discover_skills():
         text = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
         fm = parse_frontmatter(text)
-        techniques = count_techniques(skill_dir)
-        scripts = count_scripts(skill_dir)
         skills.append(
             {
                 "dir_name": skill_dir.name,
                 "rel_path": skill_dir.relative_to(REPO_ROOT).as_posix(),
                 "description": fm.get("description", ""),
-                "techniques": techniques,
-                "scripts": scripts,
+                "techniques": count_techniques(skill_dir),
+                "scripts": count_scripts(skill_dir),
             }
         )
+    return skills
+
+
+def main() -> None:
+    skills = collect_skills()
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     catalog_html = build_html(skills)
