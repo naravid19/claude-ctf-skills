@@ -5,9 +5,9 @@ license: MIT
 compatibility: Requires filesystem-based agent (Claude Code or similar) with bash and Python 3 with requests and tavily packages.
 allowed-tools: Bash Read Write Glob Grep Skill
 metadata:
-  author: Lukasz Jagiello
   user-invocable: "true"
   argument-hint: "<challenge-name-or-clues>"
+  author: Lukasz Jagiello
 ---
 
 # CTF Similar Challenge Search

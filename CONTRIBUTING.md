@@ -65,12 +65,13 @@ Conventions:
 - Attribute the source CTF/competition in the heading when known
 - Keep explanations concise — this is a quick reference, not a tutorial
 
-### 3. Update the SKILL.md
+### 3. Update the SKILL.md (Technique `.md` files) or Agent / README (Exploit Scripts)
 
-After adding a technique, update the parent `SKILL.md`:
+After adding a technique `.md` file, update the parent `SKILL.md`:
 
 - Add the technique to the **Additional Resources** list if you modified an existing file
-- If you created a new technique file, add a new entry to the list with a relative link
+- If you created a new technique `.md` file, add a new entry to the list with a relative link
+- **Fork-Owned Exploit Scripts (`skills/<category>/scripts/*.py`)**: To preserve Zero-Diff Upstream Content Parity on `SKILL.md` (per [ADR 0003](docs/adr/0003-multi-subagent-specialist-architecture.md)), do **not** append fork-only `scripts/*.py` entries to `SKILL.md`. Instead, register new exploit scripts in `agents/ctf-<category>.md` and `README.md` (`scripts/generate_catalog.py` discovers `scripts/*.py` automatically).
 
 ### 4. Update the README table
 

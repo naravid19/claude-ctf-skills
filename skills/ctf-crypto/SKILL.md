@@ -5,8 +5,8 @@ license: MIT
 compatibility: Requires filesystem-based agent (Claude Code or similar) with bash, Python 3, and internet access for tool installation.
 allowed-tools: Bash Read Write Edit Glob Grep Task WebFetch WebSearch
 metadata:
-  author: Lukasz Jagiello
   user-invocable: "false"
+  author: Lukasz Jagiello
 ---
 
 # CTF Cryptography
@@ -60,8 +60,6 @@ brew install hashcat
 - [post-quantum.md](post-quantum.md) - Post-quantum recognition: ML-KEM (Kyber) k=2/3/4 q=3329 etau dv, ML-DSA, Falcon, Module-LWE flattening, FO failure oracle, NTT, Kannan/Bai-Galbraith/Arora-Ge/estimator decision tree, Mersenne AJPS details
 - [exotic-crypto.md](exotic-crypto.md) - Exotic algebraic structures (braid group DH / Alexander polynomial, monotone function inversion, tropical semiring residuation, Paillier cryptosystem, Hamming code helical interleaving, ElGamal universal re-encryption, FPE Feistel brute-force, icosahedral symmetry group cipher, Goldwasser-Micali replication oracle)
 - [exotic-crypto-2.md](exotic-crypto-2.md) - Exotic algebraic structures (Part 2, 2017+): BB-84 QKD MITM, ElGamal trivial DLP (B=p-1), Paillier LSB oracle via homomorphic doubling, differential privacy noise cancellation, homomorphic encryption bit-extraction, ElGamal over matrices via Jordan normal form, OSS signature forgery via Pollard, Cayley-Purser decryption without private key, BIP39 partial mnemonic checksum brute force, Asmuth-Bloom CRT threshold recovery, Rabin with polynomial primes, LCG period detection, Vandermonde polynomial coefficient recovery
-- [scripts/padding_oracle_suite.py](scripts/padding_oracle_suite.py) - Automated CBC PKCS#7 (Vaudenay) decryption/forgery and RSA PKCS#1 v1.5 (Bleichenbacher) padding oracle solver
-- [scripts/rsa_attack_suite.py](scripts/rsa_attack_suite.py) - Multi-vector RSA attack suite: Wiener continued fractions, Fermat factorization, Common Factor GCD, Common Modulus, and Hastad broadcast attack
 
 ---
 

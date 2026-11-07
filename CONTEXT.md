@@ -5,34 +5,40 @@ Glossary of domain concepts and terminology for `claude-ctf-skills`.
 ## Terms
 
 ### Plugin Layout
-A packaged bundle of agent skills, configuration, and subagents conforming to the Claude Code plugin specification (`.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`), installable via the `/plugin` command. The key structural divergence from upstream is that skills live under `skills/<name>/` instead of the repo root, and subagents live under `agents/`.
+A packaged bundle of agent skills, configuration, and subagents conforming to the Claude Code plugin specification, installable via the `/plugin` command.
 
 ### Claude Code Plugin
 Synonym for Plugin Layout. See above.
 
 ### CTF Solver Subagent
-An autonomous primary subagent definition (`agents/ctf-solver.md`, `mode: primary`) invoked within Claude Code to act as team leader, orchestrating challenge analysis, triage, and delegation to specialist subagents.
+An autonomous primary subagent invoked within Claude Code to act as team leader, orchestrating challenge analysis, triage, and delegation to specialist subagents.
 
 ### Specialist Subagents
-Domain-focused subagents defined under `agents/` (`ctf-pwn`, `ctf-web`, `ctf-crypto`, `ctf-reverse`, `ctf-forensics`, `ctf-malware`, `ctf-misc`, `ctf-osint`) providing deep expertise, scoped tooling, and direct integration with corresponding category skills.
+Domain-focused subagents providing deep category expertise, scoped tooling, and direct integration with corresponding category skills and exploit automation scripts.
 
 ### Multi-Subagent Hierarchy
-The cooperative architecture where `ctf-solver` conducts initial triage and delegates category-specific deep work to one or more specialist subagents without polluting the parent conversation context.
+The cooperative architecture where the primary CTF Solver Subagent conducts initial triage and delegates category-specific deep work to one or more Specialist Subagents without polluting the parent conversation context.
 
 ### Skill-Scoped Scripts
-Self-contained helper, exploit, or fuzzing scripts stored directly within an individual skill's folder (`skills/<category>/scripts/`), allowing the skill to function as an independent portable toolkit.
+Self-contained helper, exploit, or fuzzing scripts stored directly within an individual skill's folder, allowing the skill to function as an independent portable toolkit.
 
 ### Repo Tooling
-Infrastructure and developer tools stored in the repository root `scripts/` directory (e.g., catalog generation, security auditing, and system tool installation).
+Infrastructure and developer tools stored in the repository root for catalog generation, security auditing, and environment setup.
 
 ### Upstream Mirroring
-The process of synchronizing updated CTF attack techniques, reference guides, and algorithmic implementations from the upstream repository (`ljagiello/ctf-skills`) into this plugin repository while preserving plugin directory structure.
+The process of synchronizing updated CTF attack techniques, reference guides, and algorithmic implementations from the upstream knowledge base into this plugin repository while preserving plugin structure.
+
+### Upstream Content Parity
+The invariant where skill reference documents and frontmatter match upstream content verbatim, preventing merge conflicts during Upstream Mirroring.
+
+### Fork-Owned Overlay
+Capabilities, subagents, exploit generators, and plugin manifests maintained exclusively by this repository that extend upstream knowledge without modifying upstream-mirrored markdown files.
 
 ### Catalog Generator
-The static website generator script (`scripts/generate_catalog.py`) that compiles skill frontmatter, technique docs, and exploit scripts into an interactive, zero-dependency search dashboard deployed to GitHub Pages (`_site/`).
+The static website generator that compiles skill metadata, technique docs, and exploit scripts into an interactive, zero-dependency search dashboard.
 
 ### Exploit Automation Suite
-The collection of verified, ready-to-run Python exploitation templates (e.g. format strings, two-stage ret2libc, SROP, seccomp ORW, async HTTP fuzzers, CBC padding oracle, and multi-vector RSA solvers) colocated in skill `scripts/` directories.
+The collection of verified, ready-to-run exploitation and cryptanalysis templates colocated in skill script directories.
 
 ### Triage Roles
 The five canonical roles used to classify incoming tasks, issues, and pull requests:

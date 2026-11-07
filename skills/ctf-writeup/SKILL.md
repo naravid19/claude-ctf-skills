@@ -5,9 +5,9 @@ license: MIT
 compatibility: Requires filesystem-based agent (Claude Code or similar) with bash and Python 3.
 allowed-tools: Bash Read Write Edit Glob Grep Task WebFetch WebSearch
 metadata:
-  author: Lukasz Jagiello
   user-invocable: "true"
   argument-hint: "[challenge-name]"
+  author: Lukasz Jagiello
 ---
 
 # CTF Write-up Generator

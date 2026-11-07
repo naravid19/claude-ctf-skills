@@ -5,8 +5,8 @@ license: MIT
 compatibility: Requires filesystem-based agent (Claude Code or similar) with bash, Python 3, and internet access for tool installation.
 allowed-tools: Bash Read Write Edit Glob Grep Task WebFetch WebSearch
 metadata:
-  author: Lukasz Jagiello
   user-invocable: "false"
+  author: Lukasz Jagiello
 ---
 
 # CTF Binary Exploitation (Pwn)
@@ -76,7 +76,6 @@ gem install one_gadget seccomp-tools
 - [static-signals.md](static-signals.md) - Exploit-relevant static signals (libc version, seccomp policy, RELRO/PIE/canary/NX evidence) for exploitability assessment
 - [pwnable-tw/README.md](pwnable-tw/README.md) - 43 pwnable.tw writeups (orw, start, calc, hacknote, babystack, tcache_tear, death_note, dubblesort, applestore, bookwriter, and more) with per-challenge environment, protections, root-cause defects, and concrete exploitation chains
 - [tools-mcp.md](tools-mcp.md) - MCP server integration for pwn: WinDbg MCP session model (`open_cdb_dump`/`open_cdb_remote`/`open_kd_session` + `session_id`), crash-dump triage, in-dump `flag{` memory scanning, live breakpoint/hardware-watchpoint/memory-patch exploitation, `!dh -f` Windows mitigation check (the `checksec` equivalent), kernel-mode token stealing with kd; IDA/Ghidra MCP for exploit development (decompile the vulnerable function first, drop to assembly only for exact gadget bytes)
-- [scripts/fmtstr_payload_suite.py](scripts/fmtstr_payload_suite.py), [scripts/ret2libc_two_stage.py](scripts/ret2libc_two_stage.py), [scripts/srop_execve.py](scripts/srop_execve.py), [scripts/seccomp_orw_generator.py](scripts/seccomp_orw_generator.py), [scripts/shellcraft_asm.py](scripts/shellcraft_asm.py) - Verified pwntools exploit automation templates
 
 ---
 
