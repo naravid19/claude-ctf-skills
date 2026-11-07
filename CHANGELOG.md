@@ -20,6 +20,7 @@ Upstream metadata synchronization through commit `2ad85d3`, multi-subagent speci
     - `ctf-misc.md` (pyjail/bashjail sandbox escapes, esoteric ciphers)
     - `ctf-osint.md` (geolocation, identity correlation, DNS recon)
   - Documented architectural decisions in `docs/adr/0003-multi-subagent-specialist-architecture.md`.
+  - Enforced Zero-Diff Upstream Content Parity across all 12 skills (135/136 markdown files matching upstream byte-for-byte), with Fork-Owned Overlay boundaries documented in `CONTEXT.md`, `CONTRIBUTING.md`, and ADR 0003.
   - Added `tests/test_agents.py` validating agent definitions, frontmatter schema, and tool allowances.
 - **Exploit Automation Suite Expansion**:
   - `skills/ctf-crypto/scripts/padding_oracle_suite.py`: Automated CBC PKCS#7 (Vaudenay) byte-by-byte decryption (`decrypt_ciphertext`), arbitrary block forgery (`forge_ciphertext`), intermediate state recovery (`get_intermediate_block`), and RSA PKCS#1 v1.5 (Bleichenbacher) adaptive chosen-ciphertext padding oracle solver (`bleichenbacher_attack`) with mock oracle self-tests.

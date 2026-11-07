@@ -125,7 +125,7 @@ npx skills add naravid19/claude-ctf-skills
 | [**ctf-web**](skills/ctf-web/SKILL.md) | 23 | 1 | XSS, SQLi, SSTI, SSRF, XXE, JWT forgery, auth bypass, Port Address Translation (PAT), python-requests toolkit, prototype pollution, Web3/Solidity smart contracts, MCP tooling |
 | [**ctf-pwn**](skills/ctf-pwn/SKILL.md) | 21 (+43 pwnable.tw writeups) | 5 | Stack overflows, format string exploitation, glibc heap bins (tcache/fastbin/unsorted), ROP/ret2libc, SROP, seccomp sandbox bypass (ORW), kernel exploitation, userland attack playbook |
 | [**ctf-reverse**](skills/ctf-reverse/SKILL.md) | 22 | 1 | ELF/PE binaries, APK reverse engineering, WebAssembly (WASM), firmware, custom VM bytecode architectures, Unicorn Engine CPU emulation tracer, radare2/r2pipe scripting, MBA simplification |
-| [**ctf-crypto**](skills/ctf-crypto/SKILL.md) | 20 | 2 | RSA (Wiener, Fermat, Hastad, Common Modulus), CBC padding oracle suite, AES modes, ECC (Pollard rho, invalid curve), lattices (LLL, CVP, LWE), Diffie-Hellman confinement, Poly1305, Post-Quantum, ZKP |
+| [**ctf-crypto**](skills/ctf-crypto/SKILL.md) | 20 | 2 | RSA (Wiener, Fermat, Common Factor, Hastad, Common Modulus, Bleichenbacher), CBC padding oracle suite (decrypt & forge), AES modes, ECC (Pollard rho, invalid curve), lattices (LLL, CVP, LWE), Diffie-Hellman confinement, Poly1305, Post-Quantum, ZKP |
 | [**ctf-forensics**](skills/ctf-forensics/SKILL.md) | 15 | — | Memory analysis (Volatility 3), ext4/NTFS disk images, PCAP network streams, steganography, registry forensics, side-channel power/timing, audio & SDR |
 | [**ctf-misc**](skills/ctf-misc/SKILL.md) | 13 | — | Pyjail sandbox escapes (audit-hook trampolines), Bashjail escapes (`BASH_ENV` injection), esoteric languages, QR polyglots, z3 constraint solving |
 | [**ctf-ai-ml**](skills/ctf-ai-ml/SKILL.md) | 4 | — | Adversarial perturbation (FGSM), prompt injection, LLM jailbreaks, model extraction, training data poisoning, LoRA adapter tampering |
@@ -169,12 +169,12 @@ The repository includes 10 ready-to-run, parameterized Python helper scripts sto
 
 ### Cryptography (`skills/ctf-crypto/scripts/`)
 
-- **[`padding_oracle_suite.py`](skills/ctf-crypto/scripts/padding_oracle_suite.py)**: Automated CBC PKCS#7 padding oracle decryption and block encryption solver. Includes built-in mock oracle for verification.
-- **[`rsa_attack_suite.py`](skills/ctf-crypto/scripts/rsa_attack_suite.py)**: Multi-vector RSA cryptanalysis toolkit implementing Wiener's continued fractions attack, Fermat's close-prime factorization, Common Modulus attack, and Hastad's broadcast attack via CRT and integer root extraction.
+- **[`padding_oracle_suite.py`](skills/ctf-crypto/scripts/padding_oracle_suite.py)**: Automated CBC PKCS#7 (Vaudenay) byte-by-byte decryption (`decrypt_ciphertext`), arbitrary block forgery (`forge_ciphertext`), and RSA PKCS#1 v1.5 (Bleichenbacher) adaptive chosen-ciphertext padding oracle solver (`bleichenbacher_attack`) with mock oracle self-tests.
+- **[`rsa_attack_suite.py`](skills/ctf-crypto/scripts/rsa_attack_suite.py)**: Multi-vector RSA cryptanalysis toolkit implementing Wiener's continued fractions attack, Fermat's close-prime factorization, Common Factor attack via pairwise GCD, Common Modulus attack, and Hastad's broadcast attack via CRT and integer root extraction.
 
 ### Reverse Engineering (`skills/ctf-reverse/scripts/`)
 
-- **[`unicorn_trace_emu.py`](skills/ctf-reverse/scripts/unicorn_trace_emu.py)**: In-memory CPU emulation tracer using Unicorn Engine. Safely executes x86/x64 shellcode in a virtual sandbox, tracing instructions, register states, and memory access without host execution risks.
+- **[`unicorn_trace_emu.py`](skills/ctf-reverse/scripts/unicorn_trace_emu.py)**: In-memory CPU emulation tracer using Unicorn Engine. Safely executes x86 (32-bit) and x86_64 (64-bit) shellcode in a virtual sandbox, tracing instructions, register states (`eax`/`rax`, `esp`/`rsp`, `eip`/`rip`), and memory access without host execution risks.
 
 ---
 
@@ -240,7 +240,7 @@ Installation logs and state are saved to `~/.ctf-tools/`.
 This repository maintains strict CI verification across all skills, scripts, and frontmatter:
 
 ```bash
-# Run complete test suite (120 unit tests)
+# Run complete test suite (122 unit tests)
 python -m pytest tests/ -v
 
 # Verify skill frontmatter validity and required metadata
