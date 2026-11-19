@@ -30,7 +30,7 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install pytest galois pwntools
+        run: pip install pytest "galois==0.4.11" "pwntools==4.15.0"
 
       - name: Run tests
         run: python -m pytest tests/ -v

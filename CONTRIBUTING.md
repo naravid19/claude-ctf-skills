@@ -29,7 +29,7 @@ This installs hooks that run automatically on every commit:
 ### Install test dependencies
 
 ```bash
-pip install pytest
+pip install pytest "galois==0.4.11" "pwntools==4.15.0"
 ```
 
 ## Adding Techniques to an Existing Skill
