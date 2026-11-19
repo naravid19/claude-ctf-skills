@@ -30,7 +30,7 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install pytest
+        run: pip install pytest galois pwntools
 
       - name: Run tests
         run: python -m pytest tests/ -v
